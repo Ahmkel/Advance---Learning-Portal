@@ -9,4 +9,4 @@ var app =require('express')();
 require('./myRouter').route(app);
 
 //Start Server
-app.listen(8080);
+app.listen(process.env.PORT||8080);
