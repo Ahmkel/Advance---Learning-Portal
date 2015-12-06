@@ -8,8 +8,8 @@ $(document).ready(function () {
         $('html, body').stop().animate({
             'scrollTop': $target.offset().top - 45
         }, {
-            duration:1150,
-            easing:'easeInOutExpo'
+            duration:900,
+            easing:'easeInOutCubic'
         });
     });
 });
