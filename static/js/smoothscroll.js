@@ -1,15 +1,12 @@
-$(document).ready(function () {
-    $('a[href^="#"]').on('click', function (e) {
-        e.preventDefault();
+(function($) {
+    "use strict"; // Start of use strict
 
-        var target = this.hash,
-            $target = $(target);
-
+    // jQuery for page scrolling feature - requires jQuery Easing plugin
+    $('a.page-scroll').bind('click', function(event) {
+        var $anchor = $(this);
         $('html, body').stop().animate({
-            'scrollTop': $target.offset().top - 45
-        }, {
-            duration:900,
-            easing:'easeInOutCubic'
-        });
+            scrollTop: ($($anchor.attr('href')).offset().top - 45)
+        }, 1250, 'easeInOutExpo');
+        event.preventDefault();
     });
-});
+})(jQuery); // End of use strict
