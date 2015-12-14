@@ -59,6 +59,18 @@
             });
         };
 
+        /////////Assem
+        var Follow = function(username){
+            return $http.get("/Follow/"+username).then(function(res){
+                return res.data;
+            });
+        };
+        var UnFollow = function(username){
+            return $http.get("/UnFollow/"+username).then(function(res){
+                return res.data;
+            });
+        }
+
         return {
             getUsers:getUsers,
             registerUser:registerUser,
@@ -69,7 +81,9 @@
             getUserFollowed:getUserFollowed,
             Login:Login,
             Logout:Logout,
-            authenticate:authenticate
+            authenticate:authenticate,
+            Follow:Follow,
+            UnFollow:UnFollow
         };
     };
     var app = angular.module("Advance");

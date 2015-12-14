@@ -36,13 +36,20 @@ module.exports.route = function(app){
     app.get("/authenticate",req_handlers.authenticate);
     app.post("/registerLP",req_handlers.registerLP);
     app.post("/unregisterLP",req_handlers.unregisterLP);
+    app.delete("/removeLP/:id",req_handlers.removeLP);
+    app.post("/deleteStep",req_handlers.deleteStep);
+    app.post("/swapSteps",req_handlers.swapSteps);
+
 
     ///////////Mahmoud
     app.get("/Logout",req_handlers.Logout);
     app.post("/AddChallenge",req_handlers.AddChallenge);
     app.get("/GetLP/:id",req_handlers.GetLP);
     app.post("/EditLP/:id",req_handlers.EditLP);
-    app.post("/AddBlog",req_handlers.AddBlog);
+    app.post("/AddCourse",req_handlers.addCourse);
+    app.post("/AddBook",req_handlers.addBook);
+    app.post("/AddVideo",req_handlers.addVideo);
+    app.post("/AddBlog",req_handlers.addBlog);
     app.get("/NoOfSteps/:id",req_handlers.NoOfSteps);
     app.post("/Login",req_handlers.Login);
 
@@ -59,6 +66,11 @@ module.exports.route = function(app){
     app.post("/GetChUsers",req_handlers.getChUsers);
     app.post("/addComment/:id",req_handlers.addComment);
 
+    //////////Assem
+    app.get("/Follow/:username",req_handlers.Follow);
+    app.get("/UnFollow/:username",req_handlers.UnFollow);
+    app.get("/SearchLPbyName",req_handlers.SearchLPbyName);
+    app.get("/SearchLPbyCat",req_handlers.SearchLPbyCat);
 
     //////Hamada
     app.get("*",function(req,res){

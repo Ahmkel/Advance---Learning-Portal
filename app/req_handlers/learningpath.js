@@ -87,52 +87,61 @@ var getStep = function(req,res){
     });
 }
 
-var addBlog = function(req,res){
+var addCourse = function (req,res) {
     sqlConnector.getConnection(function(err,connection){
-        connection.query("INSERT INTO Resource VALUES (?, ?, ?, ?, ?, '1')",[req.body.lp,req.body.StepNo,req.body.title,req.body.desc,req.body.link],function(err,rows) {
-            if(err){
-                res.end(JSON.stringify(err));
-                connection.release();
-                return;
-            }
-        });
-        connection.query("INSERT INTO Blog VALUES (?,?,?)",[req.body.lp,req.body.StepNo,req.body.blogger], function(err,rows){
-            res.end(JSON.stringify({Error:null}));
-            connection.release();
+        connection.query("SELECT MAX(StepNo) MaxStepNo FROM resource WHERE LPID = ?",[req.body.lpid],function(err,rows){
+            var NewStepNo = rows[0].MaxStepNo + 1;
+            connection.query("INSERT INTO resource VALUES (?, ?, ?, ?, ?, '4')",[req.body.lpid,NewStepNo,req.body.title,req.body.desc,req.body.link]);
+            connection.query("INSERT INTO course VALUES (?, ?, ?, ?, ?)",[req.body.lpid,NewStepNo,req.body.provider,req.body.duration,req.body.price]
+                ,function(err,rows){
+                    res.end(JSON.stringify({"err":err}));
+                    connection.release();
+            });
         });
     });
 };
 
-var addBook = function(req,res){
+var addBook = function (req,res) {
     sqlConnector.getConnection(function(err,connection){
-        var StepNo = 0;
-        connection.query("SELECT FROM Resource WHERE LPID = ?",[req.body.lp],function(err,rows){
-            StepNo = rows.length + 1;
-        });
-        connection.query("INSERT INTO Resource VALUES (?, ?, ?, ?, ?, 1)",[req.body.lp,StepNo,req.body.title,req.body.desc,req.body.link],function(err,rows) {
-        });
-        connection.query("INSERT INTO Book VALUES(?,?,?,?,?,?)",[req.body.lp,StepNo,req.body.author, req.body.pno, req.body.duration, req.body.Price], function(err,rows){
-            connection.release();
-            res.redirect('/');
+        connection.query("SELECT MAX(StepNo) MaxStepNo FROM resource WHERE LPID = ?",[req.body.lpid],function(err,rows){
+            var NewStepNo = rows[0].MaxStepNo + 1;
+            connection.query("INSERT INTO resource VALUES (?, ?, ?, ?, ?, '1')",[req.body.lpid,NewStepNo,req.body.title,req.body.desc,req.body.link]);
+            connection.query("INSERT INTO book VALUES(?,?,?,?,?)",[req.body.lpid,NewStepNo,req.body.author,req.body.pno,req.body.price]
+                ,function(err,rows){
+                    res.end(JSON.stringify({"err":err}));
+                    connection.release();
+            });
         });
     });
 };
 
-var addVideo = function(req,res){
+var addVideo = function (req,res) {
     sqlConnector.getConnection(function(err,connection){
-        var StepNo = 0;
-        connection.query("SELECT FROM Resource WHERE LPID = ?",[req.body.lp],function(err,rows){
-            StepNo = rows.length + 1;
-        });
-        connection.query("INSERT INTO Resource VALUES (?, ?, ?, ?, ?, 2)",[req.body.lp,StepNo,req.body.title,req.body.desc,req.body.link],function(err,rows) {
-        });
-        connection.query("INSERT INTO Video VALUES(?,?,?,?)",[req.body.lp,StepNo,req.body.uploader, req.body.duration], function(err,rows){
-            connection.release();
-            res.redirect('/');
+        connection.query("SELECT MAX(StepNo) MaxStepNo FROM resource WHERE LPID = ?",[req.body.lpid],function(err,rows){
+            var NewStepNo = rows[0].MaxStepNo + 1;
+            connection.query("INSERT INTO resource VALUES (?, ?, ?, ?, ?, '2')",[req.body.lpid,NewStepNo,req.body.title,req.body.desc,req.body.link]);
+            connection.query("INSERT INTO video VALUES(?,?,?,?)",[req.body.lpid,NewStepNo,req.body.uploader, req.body.duration]
+                ,function(err,rows){
+                    res.end(JSON.stringify({"err":err}));
+                    connection.release();
+            });
         });
     });
 };
 
+var addBlog = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT MAX(StepNo) MaxStepNo FROM resource WHERE LPID = ?",[req.body.lpid],function(err,rows){
+            var NewStepNo = rows[0].MaxStepNo + 1;
+            connection.query("INSERT INTO resource VALUES (?, ?, ?, ?, ?, '3')",[req.body.lpid,NewStepNo,req.body.title,req.body.desc,req.body.link]);
+            connection.query("INSERT INTO blog VALUES (?,?,?)",[req.body.lpid,NewStepNo,req.body.blogger]
+                ,function(err,rows){
+                    res.end(JSON.stringify({"err":err}));
+                    connection.release();
+            });
+        });
+    });
+};
 
 var NoOfSteps = function(req,res){
     sqlConnector.getConnection(function(err,connection){
@@ -233,7 +242,7 @@ var getLPUsers = function(req,res){
 var getLpComments = function(req,res){
     sqlConnector.getConnection(function(err,connection){
         var resJSON = {};
-        connection.query("SELECT CO.Username,C.Text from Comment C,CommentsOn CO where CO.CID = C.ID and CO.LPID =?",[req.params.id],function(err,rows){
+        connection.query("SELECT CO.Username,C.Text from Comment C,CommentsOn CO where CO.CID = C.ID and CO.LPID =? ORDER BY C.ID DESC",[req.params.id],function(err,rows){
             if (err) {
                 res.end(JSON.stringify(err));
                 return;
@@ -312,15 +321,58 @@ var unregisterLP = function(req,res){
     });
 };
 
+var removeLP = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {Error:null};
+        connection.query("DELETE c FROM comment c JOIN commentson con on c.id = con.cid JOIN learningpath lp on lp.id = con.lpid WHERE lp.id= ?",[req.params.id]);
+        connection.query("DELETE FROM learningpath WHERE ID = ? ",[req.params.id],function(err,rows){
+            if (err) {
+                resJSON.Error=err;
+            }
+            res.end(JSON.stringify(resJSON));
+        });
+    });
+};
+
+var deleteStep = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT MAX(StepNo) MaxStepNo FROM resource WHERE LPID = ?",[req.body.lpid],function(err,rows){
+            var MaxStepNo = rows[0].MaxStepNo;
+            connection.query("Delete From resource where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno]);
+            for(var i = req.body.stepno + 1;i<MaxStepNo;i++){
+                connection.query("UPDATE resource SET stepno = ? where lpid = ? and stepno = ?",[i-1,req.body.lpid,i]);
+            }
+            connection.query("UPDATE resource SET stepno = ? where lpid = ? and stepno = ?",[MaxStepNo-1,req.body.lpid,MaxStepNo], function (err) {
+                res.end(JSON.stringify({err:err}));
+                connection.release();
+            });
+
+        });
+    });
+};
+
+var swapSteps = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("UPDATE resource SET stepno = 0 where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno1]);
+        connection.query("UPDATE resource SET stepno = ? where lpid = ? and stepno = ?",[req.body.stepno1,req.body.lpid,req.body.stepno2]);
+        connection.query("UPDATE resource SET stepno = ? where lpid = ? and stepno = 0",[req.body.stepno2,req.body.lpid]
+            ,function(err){
+                res.end(JSON.stringify({err:err}));
+                connection.release();
+            });
+    });
+}
+
+///////Kahla
 var addComment = function (req,res) {
     sqlConnector.getConnection(function (err,connection) {
         var resJSON={};
         connection.query("Insert into Comment(Text) values(?);",[req.body.Text],function(err){
             resJSON.Error1 = err;
         });
-        connection.query("Select ID from Comment where Text = ?",[req.body.Text],function(err,rows){
-            resJSON.CID=rows[0].ID;
-            resJSON.Error2 = err;
+        connection.query("Select MAX(ID) as CID from Comment",function(err,rows){
+            resJSON.CID=rows[0].CID;
+            resJSON.Error2 = rows;
 
             connection.query("Insert into CommentsOn values(?,?,?)", [req.AdvanceCookie.username,req.params.id,resJSON.CID], function (err) {
                 resJSON.Error3=err;
@@ -331,15 +383,33 @@ var addComment = function (req,res) {
     });
 };
 
+
+
+/////////Assem
+var SearchLPbyName = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate, Sum(V.Type) FROM LearningPath L, VotesLP V WHERE Name like '%" + req.params.name + "&' GROUP BY L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate",function(err,rows){
+            res.end(JSON.stringify(LPS = rows)+'\n');
+        });
+    });
+};
+
+var SearchLPbyCat = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate, Sum(V.Type) FROM LearningPath L, VotesLP V WHERE Category = '" + req.params.name + "' GROUP BY L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate",function(err,rows){
+            res.end(JSON.stringify(LPS = rows)+'\n');
+        });
+    });
+};
+
 module.exports = {
     /////////Mahmoud
-    getLP: getLP,
     editPath: editPath,
     getStep:getStep,
-    editPath:editPath,
-    addBlog:addBlog,
+    addCourse:addCourse,
     addBook: addBook,
     addVideo: addVideo,
+    addBlog:addBlog,
     NoOfSteps:NoOfSteps,
 
     //////Kahla
@@ -355,5 +425,12 @@ module.exports = {
 
     //////Hamada
     registerLP:registerLP,
-    unregisterLP:unregisterLP
+    unregisterLP:unregisterLP,
+    removeLP:removeLP,
+    deleteStep:deleteStep,
+    swapSteps:swapSteps,
+
+    ///////Assem
+    SearchLPbyName: SearchLPbyName,
+    SearchLPbyCat: SearchLPbyCat
 };

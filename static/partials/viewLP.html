@@ -6,15 +6,165 @@
     <section  class="col-lg-9">
         <ul class="list-group">
             <li class="list-group-item active panel-title">Steps</li>
+            <li class="list-group-item" ng-repeat="step in AllSteps">
+                <h2 class="col-lg-1">{{step.Stepno}}</h2><div>
+                <h3><a href="{{step.Link}}">{{step.Title}}</a></h3>
+                <h4>{{step.Description}}</h4></div>
 
-            <section ng-repeat="step in AllSteps">
-                <li class="list-group-item">
-                    <h2 class="col-lg-1">{{step.Stepno}}</h2><div>
-                    <h3><a href="{{step.Link}}">{{step.Title}}</a></h3>
-                    <h4>{{step.Description}}</h4></div>
-                </li>
-            </section>
+                <input type="button" class="btn btn-danger" ng-show="ShowModifyStep" ng-click="DeleteStep(step.Stepno)" value="Delete Step">
+                <input type="button" class="btn btn-warning" ng-show="ShowModifyStep" ng-click="MoveStepUp(step.Stepno)" value="Move Up">
+                <input type="button" class="btn btn-warning" ng-show="ShowModifyStep" ng-click="MoveStepDown(step.Stepno)" value="Move Down">
+            </li>
         </ul>
+
+
+
+        <section class="panel panel-primary" ng-show="ShowModifySection">
+            <div class="panel-heading">Modify</div>
+            <div class="panel-body">
+                <section class="row center-block">
+                    <input type="button" class="btn btn-primary" value="Modify Details" ng-click="ShowModifyDetailsForm()">
+                    <input type="button" class="btn btn-primary" value="Add Course" ng-click="ShowAddCourseForm()">
+                    <input type="button" class="btn btn-primary" value="Add Book" ng-click="ShowAddBookForm()">
+                    <input type="button" class="btn btn-primary" value="Add Video" ng-click="ShowAddVideoForm()">
+                    <input type="button" class="btn btn-primary" value="Add Blog" ng-click="ShowAddBlogForm()">
+                </section>
+
+                <section class="form-group" ng-show="ShowModifyDetails">
+                    <form>
+                        </br>
+                        <label>Title: </label>
+                        <input type="text" class="form-control" ng-model="LPObj.Title">
+                        <label>Description: </label>
+                        </br>
+                        <textarea rows="4" cols="50" class="form-control" ng-model="LPObj.Description"></textarea>
+                        </br>
+                        <label>Duration: </label>
+                        <input type="text" class="form-control" ng-model="LPObj.Duration">
+                        <label>Category: </label>
+                        <input type="text" class="form-control" ng-model="LPObj.Category">
+                        </br>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="ModifyDetails()">Update</button>
+                        </br>
+                    </form>
+                </section>
+
+                <section class="form-group" ng-show="ShowAddCourse">
+                    <form>
+                        <label>
+                            Title:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.title">
+                        <label>
+                            Description:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.desc">
+                        <label>
+                            Link:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.link">
+                        <label>
+                            Provider:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.provider">
+                        <label>
+                            Duration:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.duration">
+                        <label>
+                            Price:
+                        </label>
+                        <input type="text" class="form-control" ng-model="CourseObj.price">
+                        </br>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddCourse()">Add</button>
+                    </form>
+                </section>
+
+
+                <section class="form-group" ng-show="ShowAddBook">
+                    <form>
+                        <label>
+                            Title:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.title">
+                        <label>
+                            Description:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.desc">
+                        <label>
+                            Link:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.link">
+                        <label>
+                            Author:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.author">
+                        <label>
+                            Number of Pages:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.pno">
+                        <label>
+                            Price:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BookObj.price">
+                        </br>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddBook()">Add</button>
+                    </form>
+                </section>
+
+                <section class="form-group" ng-show="ShowAddVideo">
+                    <form>
+                        <label>
+                            Title:
+                        </label>
+                        <input type="text" class="form-control" ng-model="VideoObj.title">
+                        <label>
+                            Description:
+                        </label>
+                        <input type="text" class="form-control" ng-model="VideoObj.desc">
+                        <label>
+                            Link:
+                        </label>
+                        <input type="text" class="form-control" ng-model="VideoObj.link">
+                        <label>
+                            Uploader:
+                        </label>
+                        <input type="text" class="form-control" ng-model="VideoObj.uploader">
+                        <label>
+                            Duration:
+                        </label>
+                        <input type="text" class="form-control" ng-model="VideoObj.duration">
+                        </br>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddVideo()">Add</button>
+                    </form>
+                </section>
+
+
+                <section class="form-group" ng-show="ShowAddBlog">
+                    <form>
+                        <label>
+                            Title:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BlogObj.title">
+                        <label>
+                            Description:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BlogObj.desc">
+                        <label>
+                            Link:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BlogObj.link">
+                        <label>
+                            Blogger:
+                        </label>
+                        <input type="text" class="form-control" ng-model="BlogObj.blogger">
+                        </br>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddBlog()">Add</button>
+                    </form>
+                </section>
+            </div>
+        </section>
+
 
         <ul class="list-group">
             <li class="list-group-item active panel-title">Comments</li>
@@ -25,11 +175,13 @@
                 </li>
             </div>
         </ul>
-        <div  ng-show = "UserState">
-            <textarea rows="4" cols="50" class="form-control" ng-model="CommentText"></textarea>
-            <button type="SUBMIT" class="btn btn-primary col-lg-offset-5" ng-click="Comment()">Comment</button>
+        <div class="form-group" ng-show = "UserState">
+            <form>
+                <textarea rows="4" cols="50" class="form-control" ng-model="CommentText"></textarea>
+                </br>
+                <button type="SUBMIT" class="btn btn-primary col-lg-offset-5" ng-click="Comment()">Comment</button>
+            </form>
         </div>
-
         <ul class="list-group">
             <li class="list-group-item active panel-title">Associated Challenges</li>
             <div ng-repeat="Challenge in LPChallenges">
@@ -45,26 +197,33 @@
     </section>
 
     <section class="col-lg-3">
-        <section class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="panel-title">Path Info</div>
-            </div>
-            <div class="panel-body">
-                <h5>Duration: {{LPObj.Duration}} hours</h5>
-                <h5>Category: {{LPObj.Category}}</h5>
-                <h5>Creator: {{LPObj.CreatorUser}}</h5>
-                <h5>Creation Date: {{LPObj.CreationDate}}</h5>
-                <h5>Votes: {{LPVotes.Votes}}</h5>
-            </div>
-        </section>
+
         <section class="panel panel-primary">
             <div class="panel-heading">
             </div>
             <div class="panel-body">
                 <input type="button" class="btn btn-primary col-lg-12" value="Register" ng-click="Register()" ng-show="RegisterShow">
                 <input type="button" class="btn btn-warning col-lg-12" value="Unregister" ng-click="unRegister()" ng-show="unRegisterShow">
+                <input type="button" class="btn btn-success col-lg-12" value="Modify" ng-click="Modify()" ng-show="ModifyShow">
+                <input type="button" class="btn btn-danger col-lg-12" value="Stop Modifying" ng-click="StopModify()" ng-show="StopModifyShow">
+                <input type="button" class="btn btn-danger col-lg-12" value="Remove" ng-click="Remove()" ng-show="RemoveShow">
             </div>
         </section>
+
+
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Path Info</li>
+            <div>
+                <li class="list-group-item">
+                    <h5>Duration: {{LPObj.Duration}} hours</h5>
+                    <h5>Category: {{LPObj.Category}}</h5>
+                    <h5>Creator: {{LPObj.CreatorUser}}</h5>
+                    <h5>Creation Date: {{LPObj.CreationDate}}</h5>
+                    <h5>Votes: {{LPVotes.Votes}}</h5>
+                </li>
+            </div>
+        </ul>
+
 
         <ul class="list-group">
             <li class="list-group-item active panel-title">Registered Users</li>

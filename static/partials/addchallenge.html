@@ -1,23 +1,23 @@
 <section class="container" ng-controller="AddChallengeController">
-    <br class="form-group col-lg-6 col-lg-offset-3">
-        <br name="AddChallengeForm">
+    <div class="form-group col-lg-6 col-lg-offset-3">
+        <form name="AddChallengeForm">
             </br>
             <label>Title: </label>
             <input type="text" class="form-control" ng-model="chObj.title">
             <label>Description: </label>
             </br>
-            <textarea rows="4" cols="50" class="'form-control" ng-model="chObj.desc"></textarea>
+            <textarea rows="4" cols="50" class="form-control" ng-model="chObj.desc"></textarea>
             </br>
             <label>Prize: </label>
             </br>
-            <textarea rows="4" cols="50" class="'form-control" ng-model="chObj.price"></textarea>
+            <textarea rows="4" cols="50" class="form-control" ng-model="chObj.price"></textarea>
             </br>
             <label>Difficulty: </label>
             </br>
             <input type="text" class="form-control" ng-model="chObj.diff">
             </br>
             <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddChallenge()">Add Challenge</button>
-            {{message}}
+            <h3 class="text-danger">{{message}}</h3>
         </form>
     </div>
 </section>

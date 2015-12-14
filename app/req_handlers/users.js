@@ -183,6 +183,31 @@ var authenticate = function(req,res){
     res.end(JSON.stringify(resJSON));
 };
 
+
+
+///////////Assem
+var Follow = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        connection.query("Insert into Follows Values(?,?) ",[req.AdvanceCookie.username,req.params.username],function (err, rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var UnFollow = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        connection.query("Delete FROM Follows Where FollowerUN = ? AND FollowedUN = ? ",[req.AdvanceCookie.username,req.params.username],function (err, rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
 module.exports = {
     //////////Hamada
     getUsers: getUsers,
@@ -195,5 +220,8 @@ module.exports = {
     authenticate:authenticate,
     ////////Mahmoud
     Login:Login,
-    Logout:Logout
+    Logout:Logout,
+    //////Assem
+    Follow:Follow,
+    UnFollow:UnFollow
 };

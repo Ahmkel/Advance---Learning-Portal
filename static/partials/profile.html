@@ -22,7 +22,16 @@
             <h6>{{FLPmessage}}</h6>
         </ul>
     </section>
-    <section name="Follow relations" class="col-lg-3">
+    <aside name="Follow relations" class="col-lg-3">
+
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <button type="submit" class="btn btn-primary col-lg-12" ng-click="Follow()"  ng-show="FollowShow">Follow</button>
+                <button type="submit" class="btn btn-warning col-lg-12" ng-click="UnFollow()" ng-show="unFollowShow">Unfollow</button>
+            </div>
+        </section>
 
         <ul class="list-group">
             <li class="list-group-item active panel-title">{{User.Username}}'s Followers</li>
@@ -39,5 +48,5 @@
             </li>
             <h6>{{Followedmessage}}</h6>
         </ul>
-    </section>
+    </aside>
 </section>

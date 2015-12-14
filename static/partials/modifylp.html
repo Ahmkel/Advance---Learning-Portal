@@ -49,7 +49,7 @@
         </form>
         </br>
         {{blogmessage}}
-        <form name="AddBook" ng-show = "AddBook">
+        <form name="AddBook" ng-show = "ShowAddBook">
             <label>
                 Title:
             </label>
@@ -83,7 +83,7 @@
         </form>
         </br>
         {{bookmessage}}
-        <form name="AddVideo" ng-show = "AddVideo">
+        <form name="AddVideo" ng-show = "ShowAddVideo">
             <label>
                 Title:
             </label>
@@ -107,9 +107,7 @@
             </br>
             <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddVideo()">Add Video</button>
         </form>
-        </br>
-        {{videomessage}}
-        <form name="AddCourse" ng-show = "AddCourse">
+        <form name="AddCourse" ng-show = "ShowAddCourse">
             <label>
                 Title:
             </label>
@@ -137,7 +135,6 @@
             </br>
             <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddCourse()">Add Course</button>
         </form>
-        </br>
         {{coursemessage}}<!--
         </br>
         <label>Edit Resource: </label>

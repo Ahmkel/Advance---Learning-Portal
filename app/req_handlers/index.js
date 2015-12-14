@@ -27,6 +27,9 @@ module.exports = {
     authenticate:users.authenticate,
     registerLP:learningpath.registerLP,
     unregisterLP:learningpath.unregisterLP,
+    removeLP:learningpath.removeLP,
+    deleteStep:learningpath.deleteStep,
+    swapSteps:learningpath.swapSteps,
 
     //////Mahmoud
     Login: users.Login,
@@ -34,7 +37,10 @@ module.exports = {
     AddChallenge: challenge.AddChallenge,
     GetLP: learningpath.getLP,
     EditLP:learningpath.editPath,
-    AddBlog:learningpath.addBlog,
+    addCourse:learningpath.addCourse,
+    addBook:learningpath.addBook,
+    addVideo:learningpath.addVideo,
+    addBlog:learningpath.addBlog,
     NoOfSteps:learningpath.NoOfSteps,
 
     ///////Kahla
@@ -48,5 +54,11 @@ module.exports = {
     getChallenge: challenge.getChallenge,
     getChLP: challenge.getChLP,
     getChUsers: challenge.getChUsers,
-    addComment: learningpath.addComment
+    addComment: learningpath.addComment,
+
+    //Assem
+    Follow: users.Follow,
+    UnFollow: users.UnFollow,
+    SearchLPbyName:learningpath.SearchLPbyName,
+    SearchLPbyCat:learningpath.SearchLPbyCat
 };

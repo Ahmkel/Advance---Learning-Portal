@@ -5,22 +5,33 @@
             <label>Username: </label>
             <input type="text" class="form-control" ng-model="userObj.username">
             <label>Password: </label>
-            <input type="text" class="form-control" ng-model="userObj.password">
+            <input type="password" class="form-control" ng-model="userObj.password">
             <label>E-mail: </label>
             <input type="text" class="form-control" ng-model="userObj.email">
             <label>Name: </label>
             <input type="text" class="form-control" ng-model="userObj.name">
             <label>Gender: </label>
-            <input type="text" class="form-control" ng-model="userObj.gender">
-            <label>Birthdate: </label>
-            <input type="text" class="form-control" ng-model="userObj.birthdate">
+            </br>
+            <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="M" ng-checked="true">Male</label>
+            <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="F">Female</label>
+            </br>
+            <label>Birthdate:</label>
+            </br>
+            <select ng-model="birthYear">
+                <option ng-repeat="n in Years" value="{{n}}">{{n}}</option>
+            </select>
+            <select ng-model="birthMonth">
+                <option ng-repeat="n in Months" value="{{n}}">{{n}}</option>
+            </select>
+            <select ng-model="birthDay">
+                <option ng-repeat="n in Days" value="{{n}}">{{n}}</option>
+            </select>
+            </br>
             <label>Image Url: </label>
             <input type="text" class="form-control" ng-model="userObj.image">
-            <label>Type: </label>
-            <input type="text" class="form-control" ng-model="userObj.type">
             </br>
             <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="submitUserData()">Register!</button>
-            {{message}}
+            <h3 class="text-danger">{{message}}</h3>
         </form>
     </div>
 </section>

@@ -22,29 +22,31 @@
             return $http.post("/EditLP/" + id,LPObj).then(function(res){
                 return res.data;
             })
-        }
+        };
 
-        var addBlog = function(BlogObj){
-            return $http.post("/AddBlog",BlogObj).then(function(res){
-                return res.data;
-            })
-        }
-
-        var addCourse = function(CourseObj){
+        var AddCourse = function(CourseObj){
             return $http.post("/AddCourse",CourseObj).then(function(res){
                 return res.data;
             })
-        }
-        var addVideo = function(VideoObj){
-            return $http.post("/AddVideo",VideoObj).then(function(res){
-                return res.data;
-            })
-        }
-        var addBook = function(BookObj){
+        };
+
+        var AddBook = function(BookObj){
             return $http.post("/AddBook",BookObj).then(function(res){
                 return res.data;
             })
-        }
+        };
+
+        var AddVideo = function(VideoObj){
+            return $http.post("/AddVideo",VideoObj).then(function(res){
+                return res.data;
+            })
+        };
+
+        var AddBlog = function(BlogObj){
+            return $http.post("/AddBlog",BlogObj).then(function(res){
+                return res.data;
+            })
+        };
 
 /*        var editResource = function(Step){
             return $http.post("/GetStep",Step).then(function(res){
@@ -53,14 +55,14 @@
         }*/
 
 
-        var Swap = function(StepsObj){
-            return $http.post("/SwapSteps",StepsObj).then(function(res){
+        var SwapSteps = function(SwapObj){
+            return $http.post("/swapSteps",SwapObj).then(function(res){
                 return res.data;
             })
         };
 
-        var Delete = function(DelObj){
-            return $http.post("/DeleteStep",DelObj).then(function(res){
+        var DeleteStep = function(DelObj){
+            return $http.post("/deleteStep",DelObj).then(function(res){
                 return res.data;
             })
         };
@@ -126,16 +128,22 @@
             });
         };
 
+        var remove = function(id){
+            return $http.delete("/removeLP/"+id).then(function(res){
+                return res.data;
+            });
+        };
+
         return {
             addLP: addLP,
             getLP: getLP,
             editLP: editLP,
-            addBlog: addBlog,
-            addCourse: addCourse,
-            addVideo: addVideo,
-            addBook: addBook,
-            Swap:Swap,
-            Delete:Delete,
+            AddCourse: AddCourse,
+            AddBook: AddBook,
+            AddVideo: AddVideo,
+            AddBlog: AddBlog,
+            SwapSteps:SwapSteps,
+            DeleteStep:DeleteStep,
             StpsNo:StpsNo,
             //editResource: editResource
 
@@ -148,7 +156,8 @@
 
             //////Hamada
             register:register,
-            unregister:unregister
+            unregister:unregister,
+            remove:remove
         };
     };
 
