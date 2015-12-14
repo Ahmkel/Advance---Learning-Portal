@@ -134,6 +134,39 @@
             });
         };
 
+        var checkUserVoteLP = function(username,lpid){
+            var obj = {
+                username:username,
+                lpid:lpid
+            };
+            return $http.post("/checkUserVoteLP",obj).then(function (res) {
+                return res.data;
+            });
+        };
+
+        var voteLP = function(username,lpid,type){
+            var obj = {
+                username:username,
+                lpid:lpid,
+                type:type
+            }
+            return $http.post("voteLP",obj).then(function (res) {
+                return res.data;
+            });
+        }
+
+        var getResourceData = function(lpid,stepno,type,i){
+            var obj = {
+                lpid:lpid,
+                stepno:stepno,
+                type:type
+            };
+            return $http.post('/getResourceData',obj).then(function(res){
+                res.data.i=i;
+                return res.data;
+            });
+        };
+
         return {
             addLP: addLP,
             getLP: getLP,
@@ -157,7 +190,10 @@
             //////Hamada
             register:register,
             unregister:unregister,
-            remove:remove
+            remove:remove,
+            checkUserVoteLP:checkUserVoteLP,
+            voteLP:voteLP,
+            getResourceData:getResourceData
         };
     };
 

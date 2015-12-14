@@ -39,6 +39,9 @@ module.exports.route = function(app){
     app.delete("/removeLP/:id",req_handlers.removeLP);
     app.post("/deleteStep",req_handlers.deleteStep);
     app.post("/swapSteps",req_handlers.swapSteps);
+    app.post("/checkUserVoteLP",req_handlers.checkUserVoteLP);
+    app.post("/voteLP",req_handlers.voteLP);
+    app.post("/getResourceData",req_handlers.getResourceData);
 
 
     ///////////Mahmoud

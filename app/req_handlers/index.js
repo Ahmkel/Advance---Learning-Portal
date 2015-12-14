@@ -30,6 +30,10 @@ module.exports = {
     removeLP:learningpath.removeLP,
     deleteStep:learningpath.deleteStep,
     swapSteps:learningpath.swapSteps,
+    checkUserVoteLP:learningpath.checkUserVoteLP,
+    voteLP:learningpath.voteLP,
+    getResourceData:learningpath.getResourceData,
+
 
     //////Mahmoud
     Login: users.Login,

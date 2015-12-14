@@ -7,10 +7,37 @@
         <ul class="list-group">
             <li class="list-group-item active panel-title">Steps</li>
             <li class="list-group-item" ng-repeat="step in AllSteps">
-                <h2 class="col-lg-1">{{step.Stepno}}</h2><div>
-                <h3><a href="{{step.Link}}">{{step.Title}}</a></h3>
-                <h4>{{step.Description}}</h4></div>
+                <section>
+                <section class="col-lg-1">
+                    <h2>{{step.Stepno}}</h2>
+                </section>
 
+                <section class="col-lg-offset-1">
+                    <h3><a href="{{step.Link}}">{{step.Title}}</a></h3>
+                    <h4>{{step.Description}}</h4>
+
+                    <div ng-if="step.Type=='4'">
+                        <h5>Provider: {{step.Provider}}</h5>
+                        <h5>Duration: {{step.Duration}}</h5>
+                        <h5>Price: {{step.Price}}</h5>
+                    </div>
+
+                    <div ng-if="step.Type=='1'">
+                        <h5>Author: {{step.Author}}</h5>
+                        <h5>Pages no.: {{step.Pagesno}}</h5>
+                        <h5>Price: {{step.Price}}</h5>
+                    </div>
+
+                    <div ng-if="step.Type=='2'">
+                        <h5>Uploader: {{step.Uploader}}</h5>
+                        <h5>Duration: {{step.Duration}}</h5>
+                    </div>
+
+                    <div ng-if="step.Type=='3'">
+                        <h5>Blogger: {{step.Blogger}}</h5>
+                    </div>
+                </section>
+                </section>
                 <input type="button" class="btn btn-danger" ng-show="ShowModifyStep" ng-click="DeleteStep(step.Stepno)" value="Delete Step">
                 <input type="button" class="btn btn-warning" ng-show="ShowModifyStep" ng-click="MoveStepUp(step.Stepno)" value="Move Up">
                 <input type="button" class="btn btn-warning" ng-show="ShowModifyStep" ng-click="MoveStepDown(step.Stepno)" value="Move Down">
@@ -204,6 +231,8 @@
             <div class="panel-body">
                 <input type="button" class="btn btn-primary col-lg-12" value="Register" ng-click="Register()" ng-show="RegisterShow">
                 <input type="button" class="btn btn-warning col-lg-12" value="Unregister" ng-click="unRegister()" ng-show="unRegisterShow">
+                <input type="button" class="btn btn-success col-lg-12" value="Up vote" ng-click="UpVote()" ng-show="UpVoteShow">
+                <input type="button" class="btn btn-warning col-lg-12" value="Down vote" ng-click="DownVote()" ng-show="DownVoteShow">
                 <input type="button" class="btn btn-success col-lg-12" value="Modify" ng-click="Modify()" ng-show="ModifyShow">
                 <input type="button" class="btn btn-danger col-lg-12" value="Stop Modifying" ng-click="StopModify()" ng-show="StopModifyShow">
                 <input type="button" class="btn btn-danger col-lg-12" value="Remove" ng-click="Remove()" ng-show="RemoveShow">
@@ -219,7 +248,7 @@
                     <h5>Category: {{LPObj.Category}}</h5>
                     <h5>Creator: {{LPObj.CreatorUser}}</h5>
                     <h5>Creation Date: {{LPObj.CreationDate}}</h5>
-                    <h5>Votes: {{LPVotes.Votes}}</h5>
+                    <h5>Votes: {{LPVotes}}</h5>
                 </li>
             </div>
         </ul>

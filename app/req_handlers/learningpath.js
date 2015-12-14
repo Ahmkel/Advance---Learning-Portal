@@ -266,7 +266,7 @@ var getLpVotes = function(req,res){
                 return;
             }
             else{
-                resJSON.Votes = rows[0];
+                resJSON.Votes = (rows[0].Votes===null?0:rows[0].Votes);
                 resJSON.Error = null;
                 res.end(JSON.stringify(resJSON));
                 connection.release();
@@ -274,6 +274,40 @@ var getLpVotes = function(req,res){
         });
     });
 };
+
+var checkUserVoteLP = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {};
+        connection.query("SELECT Type FROM voteslp where username = ? and lpid = ?",[req.body.username,req.body.lpid],function(err,rows){
+            if (err) {
+                res.end(JSON.stringify(err));
+                return;
+            }
+            else if(rows.length==0){
+                res.end(JSON.stringify({err:err,didVote:0}))
+            }else{
+                res.end(JSON.stringify({err:err,didVote:rows[0].Type}));
+            }
+            connection.release();
+        });
+    });
+};
+
+var voteLP = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {};
+        connection.query("DELETE FROM voteslp where username = ? and lpid = ?",[req.body.username,req.body.lpid],function(err,rows){
+            var d = new Date();
+            var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+            connection.query("INSERT INTO voteslp VALUE(?,?,?,?)",[req.body.username,req.body.lpid,req.body.type,date]
+            ,function(err,rows){
+                    res.end(JSON.stringify({err:err}))
+                    connection.release();
+                });
+        });
+    });
+};
+
 
 var getLpChallenges = function(req,res){
     sqlConnector.getConnection(function(err,connection){
@@ -401,6 +435,41 @@ var SearchLPbyCat = function(req,res){
         });
     });
 };
+var getResourceData = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var step = {};
+        if(req.body.type=='4'){
+            connection.query("SELECT * FROM course where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows){
+                step.Provider = rows[0].ProviderName;
+                step.Duration = rows[0].Duration;
+                step.Price = rows[0].Price;
+                res.end(JSON.stringify(step));
+                connection.release();
+            });
+        } else if(req.body.type=='1'){
+            connection.query("SELECT * FROM book where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows) {
+                step.Author = rows[0].Author;
+                step.Pagesno = rows[0].Pagesno;
+                step.Price = rows[0].Price;
+                res.end(JSON.stringify(step));
+                connection.release();
+            });
+        } else if(req.body.type=='2'){
+            connection.query("SELECT * FROM video where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows) {
+                step.Uploader = rows[0].Uploader;
+                step.Duration = rows[0].Duration;
+                res.end(JSON.stringify(step));
+                connection.release();
+            });
+        }else {
+            connection.query("SELECT * FROM blog where lpid = ? and stepno = ?", [req.body.lpid, req.body.stepno], function (err, rows) {
+                step.Blogger = rows[0].Blogger;
+                res.end(JSON.stringify(step));
+                connection.release();
+            });
+        }
+    });
+};
 
 module.exports = {
     /////////Mahmoud
@@ -429,6 +498,9 @@ module.exports = {
     removeLP:removeLP,
     deleteStep:deleteStep,
     swapSteps:swapSteps,
+    checkUserVoteLP:checkUserVoteLP,
+    voteLP:voteLP,
+    getResourceData:getResourceData,
 
     ///////Assem
     SearchLPbyName: SearchLPbyName,

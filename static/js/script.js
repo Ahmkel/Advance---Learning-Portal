@@ -309,6 +309,9 @@
         $scope.ModifyShow = false;
         $scope.RemoveShow = false;
 
+        $scope.UpVoteShow = false;
+        $scope.DownVoteShow = false;
+
 
         $scope.ShowModifySection = false;
         $scope.ShowModifyStep = false;
@@ -330,6 +333,15 @@
             $rootScope.UserState = User.username;
             $rootScope.UserType = User.type;
             $rootScope.lastwindowlocation = $window.location.href;
+            $lpService.checkUserVoteLP($rootScope.UserState,$routeParams.id).then(function (res) {
+                if(res.didVote === 1){
+                    $scope.UpVoteShow = false;
+                    $scope.DownVoteShow = true;
+                } else {
+                    $scope.UpVoteShow = true;
+                    $scope.DownVoteShow = false;
+                }
+            });
         });
         $lpService.getLP($routeParams.id).then(function(res){
             $scope.LPObj = res.LP;
@@ -356,6 +368,7 @@
 
                     $lpService.getSteps($routeParams.id).then(function(res){
                         $scope.AllSteps = res.Steps;
+                        $scope.UpdateRData();
 
                         $lpService.getVotes($routeParams.id).then(function(res){
                             $scope.LPVotes = res.Votes;
@@ -368,6 +381,8 @@
                 });
             });
         });
+
+
 
         $scope.Comment = function (){
             $lpService.addComment($scope.CommentText,$routeParams.id).then(function(res){
@@ -383,19 +398,19 @@
         };
         $scope.Register = function(){
             $lpService.register($rootScope.UserState,$scope.LPObj.ID).then(function(res){
+                $scope.RegisterShow=false;
+                $scope.unRegisterShow=true;
                 $lpService.getLPUsers($routeParams.id).then(function(res) {
                     $scope.LPUsers = res.Users;
-                    $scope.RegisterShow=false;
-                    $scope.unRegisterShow=true;
                 });
             });
         };
         $scope.unRegister = function(){
             $lpService.unregister($rootScope.UserState,$scope.LPObj.ID).then(function(res){
+                $scope.RegisterShow=true;
+                $scope.unRegisterShow=false;
                 $lpService.getLPUsers($routeParams.id).then(function(res) {
                     $scope.LPUsers = res.Users;
-                    $scope.RegisterShow=true;
-                    $scope.unRegisterShow=false;
                 });
             })
         };
@@ -463,6 +478,7 @@
                 $scope.CourseObj.price="";
                 $lpService.getSteps($routeParams.id).then(function(res) {
                     $scope.AllSteps = res.Steps;
+
                 });
                 $scope.ShowAddCourse = false;
             });
@@ -478,6 +494,7 @@
                 $scope.BookObj.price="";
                 $lpService.getSteps($routeParams.id).then(function(res) {
                     $scope.AllSteps = res.Steps;
+
                 });
                 $scope.ShowAddBook = false;
             });
@@ -492,6 +509,7 @@
                 $scope.VideoObj.duration="";
                 $lpService.getSteps($routeParams.id).then(function(res) {
                     $scope.AllSteps = res.Steps;
+
                 });
                 $scope.ShowAddVideo = false;
             });
@@ -505,6 +523,7 @@
                 $scope.BlogObj.blogger="";
                 $lpService.getSteps($routeParams.id).then(function(res) {
                     $scope.AllSteps = res.Steps;
+
                 });
                 $scope.ShowAddBlog = false;
             });
@@ -559,6 +578,55 @@
                 });
             });
         };
+
+
+
+
+
+        $scope.UpVote = function(){
+            $lpService.voteLP($rootScope.UserState,$routeParams.id,1).then(function(res){
+                $lpService.getVotes($routeParams.id).then(function(res){
+                    $scope.LPVotes = res.Votes;
+                });
+            });
+            $scope.UpVoteShow = false;
+            $scope.DownVoteShow = true;
+        };
+
+        $scope.DownVote = function(){
+            $lpService.voteLP($rootScope.UserState,$routeParams.id,-1).then(function(res){
+                $lpService.getVotes($routeParams.id).then(function(res){
+                    $scope.LPVotes = res.Votes;
+                });
+            });
+            $scope.UpVoteShow = true;
+            $scope.DownVoteShow = false;
+
+        };
+
+
+        $scope.UpdateRData = function(){
+            for(var i=0;i<$scope.AllSteps.length;i++) {
+
+                $lpService.getResourceData($routeParams.id, $scope.AllSteps[i].Stepno, $scope.AllSteps[i].Type,i).then(function (res) {
+                    if ($scope.AllSteps[res.i].Type == '4') {
+                        $scope.AllSteps[res.i].Provider = res.Provider;
+                        $scope.AllSteps[res.i].Duration = res.Duration;
+                        $scope.AllSteps[res.i].Price = res.Price;
+                    } else if ($scope.AllSteps[res.i].Type == '1') {
+                        $scope.AllSteps[res.i].Author = res.Author;
+                        $scope.AllSteps[res.i].Pagesno = res.Pagesno;
+                        $scope.AllSteps[res.i].Price = res.Price;
+                    } else if ($scope.AllSteps[res.i].Type == '2') {
+                        $scope.AllSteps[res.i].Uploader = res.Uploader;
+                        $scope.AllSteps[res.i].Duration = res.Duration;
+                    } else {
+                        $scope.AllSteps[res.i].Blogger = res.Blogger;
+                    }
+                });
+            }
+        }
+
 
     };
 
