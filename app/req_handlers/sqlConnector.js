@@ -5,11 +5,20 @@
 //Create the connection
 var mysql = require('mysql');
 
-var dbConfig = {
+var OnlinedbConfig = {
     host:"eu-cdbr-azure-west-c.cloudapp.net",
     user:"b05c485a20f5f8",
     password:"fc3fd947",
     database:"Advance Project"
 };
 
-module.exports = mysql.createPool(dbConfig);
+var LocaldbConfig = {
+    host:"localhost",
+    user:"root",
+    password:"123456",
+    database:"Advance Project"
+};
+
+//module.exports = mysql.createPool(OnlinedbConfig);
+
+module.exports = mysql.createPool(LocaldbConfig);

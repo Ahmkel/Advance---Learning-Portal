@@ -1,0 +1,22 @@
+<section class="container" ng-controller="addLPController">
+    <div class="form-group col-lg-6 col-lg-offset-3">
+        <form name="addLP">
+            </br>
+            <label>Title: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Title">
+            <label>Description: </label>
+            </br>
+            <textarea rows="4" cols="50" class="'form-control" ng-model="LPObj.Description">
+                </textarea>
+            </br>
+            <label>Duration: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Duration">
+            <label>Category: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Category">
+
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="submitLPData()">Add</button>
+            {{message}}
+        </form>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+<section id="Challenges" class="container" ng-controller="viewChallengeController">
+    <section  class="page-header row">
+        <h1>{{ChObj.Title}}</h1>
+        <h3>{{ChObj.Description}}</h3>
+    </section>
+
+    <section  class="col-lg-9">
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Associated Learning Paths</li>
+
+            <section ng-repeat="learningpath in ChallengeLP">
+                <li class="list-group-item">
+                    <h4><strong><a href="/#/ViewLP/{{learningpath.ID}}">{{learningpath.Title}}</a></strong></h4>
+                    <h5>{{learningpath.Description}}</h5>
+                </li>
+            </section>
+        </ul>
+    </section>
+
+    <section class="col-lg-3">
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Challenge Info</div>
+            </div>
+            <div class="panel-body">
+                <h5>Prize: {{ChObj.Prize}}</h5>
+                <h5>Difficulty: {{ChObj.Difficulty}}</h5>
+            </div>
+        </section>
+
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Registered Users</li>
+            <div ng-repeat="user in ChallengeUsers">
+                <li class="list-group-item">
+                    <strong><a href="/#/User/{{user.Username}}">{{user.Username}}</a></strong>
+                </li>
+            </div>
+        </ul>
+
+    </section>
+</section>

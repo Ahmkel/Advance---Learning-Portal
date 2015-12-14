@@ -1,0 +1,78 @@
+<section id="LearningPaths" class="container" ng-controller="viewLPController">
+    <section  class="page-header row">
+        <h1>{{LPObj.Title}}</h1>
+        <h3>{{LPObj.Description}}</h3>
+    </section>
+    <section  class="col-lg-9">
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Steps</li>
+
+            <section ng-repeat="step in AllSteps">
+                <li class="list-group-item">
+                    <h2 class="col-lg-1">{{step.Stepno}}</h2><div>
+                    <h3><a href="{{step.Link}}">{{step.Title}}</a></h3>
+                    <h4>{{step.Description}}</h4></div>
+                </li>
+            </section>
+        </ul>
+
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Comments</li>
+            <div ng-repeat="comment in LPComments">
+                <li class="list-group-item">
+                    <h4><strong><a href="/#/User/{{comment.Username}}">{{comment.Username}}</a></strong></h4>
+                    <h5>{{comment.Text}}</h5>
+                </li>
+            </div>
+        </ul>
+        <div  ng-show = "UserState">
+            <textarea rows="4" cols="50" class="form-control" ng-model="CommentText"></textarea>
+            <button type="SUBMIT" class="btn btn-primary col-lg-offset-5" ng-click="Comment()">Comment</button>
+        </div>
+
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Associated Challenges</li>
+            <div ng-repeat="Challenge in LPChallenges">
+                <li class="list-group-item">
+                    <h4><strong><a href="/#/ViewChallenge/{{Challenge.Title}}">{{Challenge.Title}}</a></strong></h4>
+                    <h5>{{Challenge.Description}}</h5>
+                    <h5>Prize:{{Challenge.Prize}}</h5>
+                    <h5>Difficulty: {{Challenge.Difficulty}}</h5>
+                </li>
+            </div>
+        </ul>
+
+    </section>
+
+    <section class="col-lg-3">
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Path Info</div>
+            </div>
+            <div class="panel-body">
+                <h5>Duration: {{LPObj.Duration}} hours</h5>
+                <h5>Category: {{LPObj.Category}}</h5>
+                <h5>Creator: {{LPObj.CreatorUser}}</h5>
+                <h5>Creation Date: {{LPObj.CreationDate}}</h5>
+                <h5>Votes: {{LPVotes.Votes}}</h5>
+            </div>
+        </section>
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+            </div>
+            <div class="panel-body">
+                <input type="button" class="btn btn-primary col-lg-12" value="Register" ng-click="Register()" ng-show="RegisterShow">
+                <input type="button" class="btn btn-warning col-lg-12" value="Unregister" ng-click="unRegister()" ng-show="unRegisterShow">
+            </div>
+        </section>
+
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Registered Users</li>
+            <div ng-repeat="user in LPUsers">
+                <li class="list-group-item">
+                <strong><a href="/#/User/{{user.Username}}">{{user.Username}}</a></strong>
+                </li>
+            </div>
+        </ul>
+    </section>
+</section>

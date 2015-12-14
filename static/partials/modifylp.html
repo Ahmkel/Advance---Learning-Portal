@@ -1,0 +1,166 @@
+<section class="container" ng-controller="ModifyLPController">
+    <div class="form-group col-lg-6 col-lg-offset-3">
+        <form name="addLP">
+            </br>
+            <label>Title: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Title">
+            <label>Description: </label>
+            </br>
+            <textarea rows="4" cols="50" class="'form-control" ng-model="LPObj.Description">
+                </textarea>
+            </br>
+            <label>Duration: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Duration">
+            <label>Category: </label>
+            <input type="text" class="form-control" ng-model="LPObj.Category">
+
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="EditLP()">Update</button>
+            {{message}}
+            </br>
+          <!--  <label>Add Resource: </label>
+            </br>
+            <label>Type: </label>
+            </br>
+            <input type="text" class="form-control" ng-model="Type">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddResource()">Add Resource</button>-->
+        </form>
+        </br>
+        <form name="AddBlog" ng-show = "AddBlog">
+            <label>
+                Title:
+            </label>
+            <input type="text" class="form-control" ng-model="BlogObj.title">
+            <label>
+                Link:
+            </label>
+            <input type="text" class="form-control" ng-model="BlogObj.link">
+            <label>
+                Description:
+            </label>
+            <input type="text" class="form-control" ng-model="BlogObj.desc">
+            <label>
+                Blogger:
+            </label>
+            <input type="text" class="form-control" ng-model="BlogObj.blogger">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="addBlog()">Add Blog</button>
+        </form>
+        </br>
+        {{blogmessage}}
+        <form name="AddBook" ng-show = "AddBook">
+            <label>
+                Title:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.title">
+            <label>
+                Link:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.link">
+            <label>
+                Description:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.desc">
+            <label>
+                Author:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.author">
+            <label>
+                Price:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.Price">
+            <label>
+                Number of Pages:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.pno">
+            <label>
+                Duration:
+            </label>
+            <input type="text" class="form-control" ng-model="BookObj.duration">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddBook()">Add Book</button>
+        </form>
+        </br>
+        {{bookmessage}}
+        <form name="AddVideo" ng-show = "AddVideo">
+            <label>
+                Title:
+            </label>
+            <input type="text" class="form-control" ng-model="VideoObj.title">
+            <label>
+                Link:
+            </label>
+            <input type="text" class="form-control" ng-model="VideoObj.link">
+            <label>
+                Description:
+            </label>
+            <input type="text" class="form-control" ng-model="VideoObj.desc">
+            <label>
+                Uploader:
+            </label>
+            <input type="text" class="form-control" ng-model="VideoObj.uploader">
+            <label>
+                Duration:
+            </label>
+            <input type="text" class="form-control" ng-model="VideoObj.duration">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddVideo()">Add Video</button>
+        </form>
+        </br>
+        {{videomessage}}
+        <form name="AddCourse" ng-show = "AddCourse">
+            <label>
+                Title:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.title">
+            <label>
+                Link:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.link">
+            <label>
+                Description:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.desc">
+            <label>
+                Provider:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.prov">
+            <label>
+                Duration:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.dur">
+            <label>
+                Price:
+            </label>
+            <input type="text" class="form-control" ng-model="CourseObj.price">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddCourse()">Add Course</button>
+        </form>
+        </br>
+        {{coursemessage}}<!--
+        </br>
+        <label>Edit Resource: </label>
+        </br>
+        <label>Step: </label>
+        </br>
+        <input type="text" class="form-control" ng-model="Step">
+        </br>
+        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="EditResource()">Edit Resource</button>-->
+        <label>
+            Swap:
+        </label>
+        <input type="text" class="form-control" ng-model="Step1">
+        </br>
+        <label>
+            With:
+        </label>
+        <input type="text" class="form-control" ng-model="Step2">
+        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="Swap()">Swap</button>
+        <label>
+            Delete Step:
+        </label>
+        <input type="text" class="form-control" ng-model="StepD">
+        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="DeleteStep()">Delete</button>
+    </div>
+</section>

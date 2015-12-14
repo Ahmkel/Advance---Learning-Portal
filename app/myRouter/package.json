@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express":"",
-    "client-sessions":""
+    "client-sessions":"",
+    "body-parser":""
   }
 }

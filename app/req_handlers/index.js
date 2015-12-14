@@ -6,9 +6,47 @@
  */
 
 //Manage requires
+////////Hamada
 var users = require('./users.js');
+
+//////////Mahmoud
+var challenge = require('./challenge.js');
+var learningpath = require('./learningpath.js');
+
 
 //Export module functions
 module.exports = {
-    getUsers: users.getUsers
+    //////////Hamada
+    getUsers: users.getUsers,
+    RegisterUser: users.RegisterUser,
+    getUserData:users.getUserData,
+    getUserLearningPaths:users.getUserLearningPaths,
+    getUserFollowers:users.getUserFollowers,
+    getUserFollowed:users.getUserFollowed,
+    getRegisteredLearningPaths:users.getRegisteredLearningPaths,
+    authenticate:users.authenticate,
+    registerLP:learningpath.registerLP,
+    unregisterLP:learningpath.unregisterLP,
+
+    //////Mahmoud
+    Login: users.Login,
+    Logout: users.Logout,
+    AddChallenge: challenge.AddChallenge,
+    GetLP: learningpath.getLP,
+    EditLP:learningpath.editPath,
+    AddBlog:learningpath.addBlog,
+    NoOfSteps:learningpath.NoOfSteps,
+
+    ///////Kahla
+    addLP: learningpath.addLP,
+    getSteps: learningpath.getSteps,
+    getLP: learningpath.getLP,
+    getLPUsers: learningpath.getLPUsers,
+    getLpComments: learningpath.getLpComments,
+    getLpVotes: learningpath.getLpVotes,
+    getLpChallenges: learningpath.getLpChallenges,
+    getChallenge: challenge.getChallenge,
+    getChLP: challenge.getChLP,
+    getChUsers: challenge.getChUsers,
+    addComment: learningpath.addComment
 };

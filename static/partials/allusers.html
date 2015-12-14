@@ -1,0 +1,10 @@
+<section id="users" class="container" ng-controller="AllUsersController">
+    <p class="row"><h2>Users:</h2></p>
+    <div class="col-md-6">
+        <ul class="list-group">
+            <div ng-repeat="user in AllUsers">
+                <li class="list-group-item"><strong><a href="/#/User/{{user.Username}}">{{user.Username}}</a></strong></li>
+            </div>
+        </ul>
+    </div>
+</section>
