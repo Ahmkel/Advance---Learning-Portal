@@ -538,6 +538,7 @@
     };
     var AddChallengeController = function ($scope, $rootScope, $challengeService,$usersService,$window) {
         $rootScope.header = "";
+        $scope.chObj = {};
         $usersService.authenticate().then(function(User){
             $rootScope.UserState = User.username;
             $rootScope.UserType = User.type;
@@ -548,6 +549,19 @@
             $rootScope.UpdateUnreadMessagesCount();
         });
         $scope.AddChallenge = function () {
+            if($scope.chObj.title == '' || !$scope.chObj.title){
+                $scope.message = 'Please enter a title';
+                return;
+            }else if($scope.chObj.desc == '' || !$scope.chObj.desc){
+                $scope.message = 'Please enter a description';
+                return;
+            }else if($scope.chObj.price == '' || !$scope.chObj.price){
+                $scope.message = 'Please enter a price';
+                return;
+            }else if($scope.chObj.diff == '' || !$scope.chObj.diff){
+                $scope.message = 'Please enter a difficulty';
+                return;
+            }
             $challengeService.AddChallenge($scope.chObj).then(function (res) {
                 if (!res.Error) {
                     $scope.message = "";
@@ -1031,6 +1045,7 @@
 
     var addLPController = function ($scope,$rootScope,$lpService,$usersService,$window) {
         $rootScope.header = false;
+        $scope.LPObj = {};
         $usersService.authenticate().then(function(User){
             $rootScope.UserState = User.username;
             $rootScope.UserType = User.type;
@@ -1041,6 +1056,19 @@
             $rootScope.UpdateUnreadMessagesCount();
         });
         $scope.submitLPData = function() {
+            if($scope.LPObj.Title == '' || !$scope.LPObj.Title){
+                $scope.message = 'Please enter a title';
+                return;
+            }else if($scope.LPObj.Description == '' || !$scope.LPObj.Description){
+                $scope.message = 'Please enter a description';
+                return;
+            }else if($scope.LPObj.Duration == '' || !$scope.LPObj.Duration){
+                $scope.message = 'Please enter a duration';
+                return;
+            }else if($scope.LPObj.Category == '' || !$scope.LPObj.Category){
+                $scope.message = 'Please enter a category';
+                return;
+            }
             $scope.LPObj.CreatorUser = $rootScope.UserState;
             $lpService.addLP($scope.LPObj).then(function(res) {
                 if(!res.Error)

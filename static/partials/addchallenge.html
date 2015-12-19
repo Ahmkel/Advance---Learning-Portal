@@ -17,7 +17,7 @@
             <input type="text" class="form-control" ng-model="chObj.diff">
             </br>
             <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="AddChallenge()">Add Challenge</button>
-            <h3 class="text-danger">{{message}}</h3>
+            <strong class="alert alert-danger" ng-hide="message=='' || !message">{{message}}</strong>
         </form>
     </div>
 </section>
