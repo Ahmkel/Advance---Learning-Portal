@@ -52,6 +52,80 @@
                 <h5>{{msg.MessageText}}</h5>
             </li>
         </ul>
+
+
+
+        <section class="panel panel-primary" ng-show="ShowEditInfo">
+            <div class="panel-heading">
+                Edit Info
+            </div>
+            <div class="panel-body">
+                <form name="EditInfoForm" class="form-horizontal">
+                    <fieldset>
+                        </br>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Password: </label>
+                            <div class="col-lg-10">
+                                <input type="password" class="form-control" ng-model="User.Password">
+                            </div></div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">E-mail: </label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="User.Email">
+                            </div></div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Name: </label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="User.Fullname">
+                            </div></div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Gender: </label>
+
+                            <div class="col-lg-10">
+                                <label class="radio-inline" ><input type="radio" ng-model="User.Gender" value="M" ng-checked="true">Male</label>
+                                <label class="radio-inline" ><input type="radio" ng-model="User.Gender" value="F">Female</label>
+                                </br>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Birthdate:</label>
+                            <div class="col-lg-10">
+                                <select ng-model="birthYear">
+                                    <option ng-repeat="n in Years" value="{{n}}">{{n}}</option>
+                                </select>
+                                <select ng-model="birthMonth">
+                                    <option ng-repeat="n in Months" value="{{n}}">{{n}}</option>
+                                </select>
+                                <select ng-model="birthDay">
+                                    <option ng-repeat="n in Days" value="{{n}}">{{n}}</option>
+                                </select>
+                                </br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Image Url: </label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="User.Image"></br>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="submitUserData()">Save</button>
+                        <button type="submit" class="btn btn-warning" ng-click="cancelsubmitUserData()">Cancel</button>
+                        <strong class="alert alert-danger" ng-hide="message=='' || !message">{{message}}</strong>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+
+
+
+
+
+
+
     </section>
     <aside name="Follow relations" class="col-lg-3">
         <section class="panel panel-primary" ng-hide="ShowControlPanel">
@@ -59,8 +133,9 @@
             </div>
             <div class="panel-body">
                 <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowInboxBtn()">Inbox</button>
-                <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowMyLPBtn()">My learning paths</button>
-                <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowRegLPBtn()">My registered learning paths</button>
+                <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowMyLPBtn()">My Learning Paths</button>
+                <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowRegLPBtn()">My Registered Learning Paths</button>
+                <button type="submit" class="btn btn-primary col-lg-12" ng-click="ShowEditInfoBtn()">Edit My Info</button>
             </div>
         </section>
         <section class="panel panel-primary" ng-show="ShowControlPanel">

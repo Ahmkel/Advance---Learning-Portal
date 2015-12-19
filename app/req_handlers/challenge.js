@@ -62,9 +62,7 @@ var getChUsers = function (req,res){
         connection.query("SELECT U.* FROM User U,ParticipatesChallenge P where P.Username = U.Username and P.ChallengeTitle = ?",[req.body.Title], function (err, rows) {
             if(err) {
                 res.end(JSON.stringify(err));
-                return;
-            }
-            else{
+            } else {
                 resJSON.ChUsers = rows;
                 resJSON.Error = null;
                 res.end(JSON.stringify(resJSON));
@@ -84,10 +82,54 @@ var getAllChallenges= function (req,res){
     });
 };
 
+var registerChallenge = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {Error:null};
+        var d = new Date();
+        var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+        connection.query("INSERT INTO participateschallenge VALUES(?,?,0) ",[req.body.username,req.body.challengeTitle],function(err,rows){
+            if (err) {
+                resJSON.Error=err;
+            }
+            res.end(JSON.stringify(resJSON));
+        });
+    });
+};
+
+var unregisterChallenge = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {Error:null};
+        var d = new Date();
+        var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+        connection.query("DELETE FROM participateschallenge WHERE Username = ? AND ChallengeTitle = ? ",[req.body.username,req.body.challengeTitle],function(err,rows){
+            if (err) {
+                resJSON.Error=err;
+            }
+            res.end(JSON.stringify(resJSON));
+        });
+    });
+};
+
+var removeChallenge = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {Error:null};
+        connection.query("DELETE FROM challenge WHERE Title = ? ",[req.params.challengeTitle],function(err,rows){
+
+            if (err) {
+                resJSON.Error=err;
+            }
+            res.end('sds');
+        });
+    });
+};
+
 module.exports = {
     AddChallenge:AddChallenge,
     getChallenge: getChallenge,
     getChLP: getChLP,
     getChUsers: getChUsers,
-    getAllChallenges:getAllChallenges
+    getAllChallenges:getAllChallenges,
+    registerChallenge:registerChallenge,
+    unregisterChallenge:unregisterChallenge,
+    removeChallenge:removeChallenge
 }

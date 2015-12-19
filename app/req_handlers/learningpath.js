@@ -460,7 +460,7 @@ var addLPtoCh = function (req,res) {
     });
 };
 
-var removeChallenge = function (req,res) {
+var removeLPChallenge = function (req,res) {
     sqlConnector.getConnection(function(err,connection) {
         var resJSON = {};
         connection.query("delete from challengeassociatedlp where ChallengeTitle = ? and LPID = ?",[req.body.Title,req.params.id],function (err){
@@ -630,7 +630,7 @@ module.exports = {
     addComment: addComment,
     addLPtoCh: addLPtoCh,
     getCh: getCh,
-    removeChallenge: removeChallenge,
+    removeLPChallenge: removeLPChallenge,
 
     //////Hamada
     registerLP:registerLP,

@@ -36,7 +36,7 @@ var getUserData = function(req,res){
     //res.send(JSON.stringify(req.params));
     sqlConnector.getConnection(function(err,connection){
         //connection.query("SELECT * FROM User WHERE Username = ?",[req.params.username]
-        connection.query("SELECT * FROM User WHERE Username = ?",[req.params.username]
+        connection.query("SELECT Username,Email,Fullname,Gender,Birthdate,Image,Type FROM User WHERE Username = ?",[req.params.username]
         ,function(err,rows){
                 var resJSON={}
                 if(rows.length==0){
@@ -245,7 +245,7 @@ var StopUser = function (req,res){
 var EditUserData = function (req,res){
     var O={};
     sqlConnector.getConnection(function(err,connection){
-        connection.query("UPDATE USER SET FullName = ? , Password = ? , Email= ? , Image = ? Where Username = ? ",[req.body.Name,req.body.Password,req.body.Email,req.body.Image,req.AdvanceCookie.username],function(err,rows){
+        connection.query("UPDATE USER SET FullName = ? , Password = ? , Email= ? , Image = ? , Gender = ? , Birthdate = ? Where Username = ?",[req.body.Fullname,req.body.Password,req.body.Email,req.body.Image,req.body.Gender,req.body.Birthdate,req.AdvanceCookie.username],function(err,rows){
             O.Error=err;
             res.end(JSON.stringify(O) + "\n");
             connection.release();

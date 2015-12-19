@@ -46,6 +46,10 @@ module.exports.route = function(app){
     app.get("/getUnreadMessages/:username",req_handlers.getUnreadMessages);
     app.get("/getReadMessages/:username",req_handlers.getReadMessages);
     app.get("/getUnreadMessagesCount/:username",req_handlers.getUnreadMessagesCount);
+    app.post("/registerChallenge",req_handlers.registerChallenge);
+    app.post("/unregisterChallenge",req_handlers.unregisterChallenge);
+    app.delete("/removeChallenge/:challengeTitle",req_handlers.removeChallenge);
+
 
     ///////////Mahmoud
     app.get("/Logout",req_handlers.Logout);
@@ -73,7 +77,7 @@ module.exports.route = function(app){
     app.post("/addComment/:id",req_handlers.addComment);
     app.post("/addLPtoCh/:id",req_handlers.addLPtoCh);
     app.get("/getCh", req_handlers.getCh);
-    app.post("/removeCh/:id",req_handlers.removeChallenge);
+    app.post("/removeCh/:id",req_handlers.removeLPChallenge);
 
     //////////Assem
     app.get("/Follow/:username",req_handlers.Follow);

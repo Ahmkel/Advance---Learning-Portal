@@ -40,12 +40,41 @@
             });
         };
 
+        var register = function(username,challengeTitle){
+            var obj = {
+                username:username,
+                challengeTitle:challengeTitle
+            }
+            return $http.post("/registerChallenge",obj).then(function(res){
+                return res.data;
+            });
+        };
+
+        var unregister = function(username,challengeTitle){
+            var obj = {
+                username:username,
+                challengeTitle:challengeTitle
+            }
+            return $http.post("/unregisterChallenge",obj).then(function(res){
+                return res.data;
+            });
+        };
+
+        var remove = function(challengeTitle){
+            return $http.delete("/removeChallenge/"+challengeTitle).then(function(res){
+                return res.data;
+            });
+        };
+
         return {
             AddChallenge:AddChallenge,
             getChallenge: getChallenge,
             getChLP: getChLP,
             getChUsers: getChUsers,
-            getAllChallenges:getAllChallenges
+            getAllChallenges:getAllChallenges,
+            register:register,
+            unregister:unregister,
+            remove:remove
         };
     };
 

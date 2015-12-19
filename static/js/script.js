@@ -182,13 +182,15 @@
         $scope.ShowInbox = false;
         $scope.ShowMyLP = false;
         $scope.ShowRegLP = false;
+        $scope.ShowEditInfo = false;
 
         $scope.PromoteShow = false;
         $scope.DemoteShow=false;
         $scope.RemoveBanShow=false;
         $scope.BanShow = false;
 
-        var userObj={username:$routeParams.username};
+        var userObj = {username:$routeParams.username};
+        var userObjTmp = {};
         $usersService.authenticate().then(function(User){
             $rootScope.UserState = User.username;
             $rootScope.UserType = User.type;
@@ -202,6 +204,7 @@
                 $scope.ShowInbox = true;
                 $scope.ShowMyLP = false;
                 $scope.ShowRegLP = false;
+                $scope.ShowEditInfo = false;
             }else{
                 $scope.ShowMyLP = true;
                 $scope.ShowRegLP = true;
@@ -361,18 +364,92 @@
             $scope.ShowInbox = true;
             $scope.ShowMyLP = false;
             $scope.ShowRegLP = false;
+            $scope.ShowRegLP = false;
         };
         $scope.ShowMyLPBtn = function(){
             $scope.ShowInbox = false;
             $scope.ShowMyLP = true;
+            $scope.ShowRegLP = false;
             $scope.ShowRegLP = false;
         };
         $scope.ShowRegLPBtn = function(){
             $scope.ShowInbox = false;
             $scope.ShowMyLP = false;
             $scope.ShowRegLP = true;
+            $scope.ShowEditInfo = false;
+        };
+        $scope.ShowEditInfoBtn = function(){
+            $scope.ShowInbox = false;
+            $scope.ShowMyLP = false;
+            $scope.ShowRegLP = false;
+            $scope.ShowEditInfo = true;
+            userObjTmp.Email = $scope.User.Email;
+            userObjTmp.Fullname = $scope.User.Fullname;
+            userObjTmp.Image = $scope.User.Image;
         };
 
+        $scope.birthYear = "2000";
+        $scope.birthMonth = "1";
+        $scope.birthDay = "1";
+        $scope.Years = [];
+        $scope.Months = [];
+        $scope.Days = [];
+        for(var i = (new Date()).getFullYear();i>=1960;i--) {
+            $scope.Years.push(i);
+        };
+        for(var i = 1;i<=12;i++) {
+            $scope.Months.push(i);
+        }
+        for(var i = 1;i<=31;i++) {
+            $scope.Days.push(i);
+        }
+
+        var validateEmail = function(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        };
+
+        $scope.submitUserData = function(){
+            if($scope.User.Password=='' || !$scope.User.Password){
+                $scope.message = 'Please enter a password';
+                return;
+            }else if($scope.User.Email=='' || !$scope.User.Email){
+                $scope.message = 'Please enter an email';
+                return;
+            }else if(!validateEmail($scope.User.Email)){
+                $scope.message = 'Please enter a valid email address';
+                return;
+            }else if($scope.User.Fullname=='' || !$scope.User.Fullname){
+                $scope.message = 'Please enter a name';
+                return;
+            }else if($scope.User.Image=='' || !$scope.User.Image){
+                $scope.message = 'Please enter an image';
+                return;
+            }
+            $scope.User.Birthdate = $scope.birthYear+"-"+$scope.birthMonth+"-"+$scope.birthDay;
+            $usersService.EditUserData($scope.User).then(function (res) {
+                $scope.User.Password = null;
+            });
+            $scope.message = null;
+            $scope.ShowInbox = true;
+            $scope.ShowMyLP = false;
+            $scope.ShowRegLP = false;
+            $scope.ShowRegLP = false;
+        };
+        $scope.cancelsubmitUserData = function(){
+            $scope.ShowInbox = true;
+            $scope.ShowMyLP = false;
+            $scope.ShowRegLP = false;
+            $scope.ShowRegLP = false;
+            $scope.User.Email = userObjTmp.Email;
+            $scope.User.Fullname = userObjTmp.Fullname;
+            $scope.User.Image = userObjTmp.Image;
+            $scope.birthYear = "2000";
+            $scope.birthMonth = "1";
+            $scope.birthDay = "1";
+            $scope.User.Password = null;
+            $scope.message = null;
+        };
         $scope.PromoteUser = function(){
             $usersService.PromoteUser($routeParams.username).then(function (res){
                 if(!res.Error) {
@@ -482,30 +559,6 @@
             })
         }
     }
-
-
-    /////////Assem
-    var ChangeInfoController = function ($scope,$rootScope,$usersService){
-        $rootScope.header = false;
-        $usersService.authenticate().then(function(User){
-            $rootScope.UserState = User.username;
-            $rootScope.UserType = User.type;
-        });
-        $usersService.getUserData(userObj).then(function(res){
-            if(res.Error){
-                $scope.message=res.Error.code;
-            }else {
-                $scope.UserObj = res.User;
-            }
-
-        });
-        $scope.EditUserData = function(){
-            $usersService.EditUserData($scope.userObj).then(function (res){
-
-            });
-        };
-    };
-
 
     var AllChallengesController = function ($scope,$rootScope,$challengeService,$usersService,$window){
         $rootScope.header="";
@@ -678,7 +731,7 @@
                 $lpService.getLPUsers($routeParams.id).then(function(res) {
                     $scope.LPUsers = res.Users;
                 });
-            })
+            });
         };
         $scope.Remove = function(){
             $lpService.remove($scope.LPObj.ID).then(function(res){
@@ -1009,6 +1062,10 @@
         $rootScope.header = false;
         $scope.RegisterShow = false;
         $scope.unRegisterShow = false;
+        $scope.RemoveShow = false;
+        $scope.ChObj = {
+            Title:$routeParams.title
+        };
         $usersService.authenticate().then(function(User){
             $rootScope.UserState = User.username;
             $rootScope.UserType = User.type;
@@ -1016,22 +1073,56 @@
                 $window.location.href = '/#/';
             }
             $rootScope.lastwindowlocation = $window.location.href;
+
+
+            if($rootScope.UserTypeauth()){
+                $scope.RemoveShow = true;
+            }
+            $challengeService.getChallenge($scope.ChObj).then(function (res) {
+                $scope.ChObj = res.Challenge;
+                $challengeService.getChLP($scope.ChObj).then(function (res) {
+                    $scope.ChallengeLP = res.ChLP;
+                    $challengeService.getChUsers($scope.ChObj).then(function (res){
+                        $scope.ChallengeUsers = res.ChUsers;
+                        for(var i=0; i<$scope.ChallengeUsers.length; i++){
+                            if($scope.ChallengeUsers[i].Username==$rootScope.UserState) {
+                                $scope.RegisterShow = false;
+                                $scope.unRegisterShow = true;
+                                break;
+                            }
+                        }
+                        if(!$scope.unRegisterShow){
+                            $scope.RegisterShow=true;
+                        }
+                    });
+                });
+            });
         });
 
-        $scope.ChObj = {
-            Title:$routeParams.title
-        };
 
-        $challengeService.getChallenge($scope.ChObj).then(function (res) {
-            $scope.ChObj = res.Challenge;
-            $challengeService.getChLP($scope.ChObj).then(function (res) {
-                $scope.ChallengeLP = res.ChLP;
+        $scope.Register = function(){
+            $challengeService.register($rootScope.UserState,$routeParams.title).then(function(res){
+                $scope.RegisterShow=false;
+                $scope.unRegisterShow=true;
                 $challengeService.getChUsers($scope.ChObj).then(function (res){
                     $scope.ChallengeUsers = res.ChUsers;
-                })
-
+                });
+            });
+        };
+        $scope.unRegister = function(){
+            $challengeService.unregister($rootScope.UserState,$routeParams.title).then(function(res){
+                $scope.RegisterShow=true;
+                $scope.unRegisterShow=false;
+                $challengeService.getChUsers($scope.ChObj).then(function (res){
+                    $scope.ChallengeUsers = res.ChUsers;
+                });
             })
-        });
+        };
+        $scope.Remove = function(){
+            $challengeService.remove($routeParams.title).then(function(res){
+                $window.location.href = "/#/User/" + $scope.UserState;
+            });
+        };
     };
 
     var SearchController = function ($scope,$rootScope,$lpService,$window,$usersService) {
@@ -1070,7 +1161,6 @@
 
     /////////////////Assem
     App.controller("SearchController",SearchController);
-    App.controller("ChangeInfoController",ChangeInfoController);
     App.controller("AllChallengesController",AllChallengesController);
     App.controller("AllReportsController",AllReportsController);
 }());

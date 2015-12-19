@@ -6,10 +6,7 @@
  */
 
 //Manage requires
-////////Hamada
 var users = require('./users.js');
-
-//////////Mahmoud
 var challenge = require('./challenge.js');
 var learningpath = require('./learningpath.js');
 
@@ -37,6 +34,9 @@ module.exports = {
     getUnreadMessages:users.getUnreadMessages,
     getReadMessages:users.getReadMessages,
     getUnreadMessagesCount:users.getUnreadMessagesCount,
+    registerChallenge:challenge.registerChallenge,
+    unregisterChallenge:challenge.unregisterChallenge,
+    removeChallenge:challenge.removeChallenge,
 
     //////Mahmoud
     Login: users.Login,
@@ -64,7 +64,7 @@ module.exports = {
     addComment: learningpath.addComment,
     addLPtoCh: learningpath.addLPtoCh,
     getCh: learningpath.getCh,
-    removeChallenge: learningpath.removeChallenge,
+    removeLPChallenge: learningpath.removeLPChallenge,
 
     //Assem
     Follow: users.Follow,

@@ -239,9 +239,7 @@
                     <h5>{{Challenge.Description}}</h5>
                     <h5>Prize:{{Challenge.Prize}}</h5>
                     <h5>Difficulty: {{Challenge.Difficulty}}</h5>
-                    <!--Kahla123-->
-                    <button type="submit"class="btn btn-primary col-lg-offset-0" ng-show="AddLPtoCh" ng-click="removeChLP(Challenge.Title)">Remove</button>
-                    <!--Kahla123-->
+                    <button type="submit"class="btn btn-danger col-lg-offset-0" ng-show="AddLPtoCh" ng-click="removeChLP(Challenge.Title)">Remove</button>
                 </li>
             </div>
         </ul>
@@ -265,7 +263,6 @@
                 <input type="button" class="btn btn-danger col-lg-12" value="Remove" ng-click="Remove()" ng-show="RemoveShow">
                 <input type="button" class="btn btn-danger col-lg-12" value="Report" ng-click="ShowReportLP()" ng-show="ReportShowbtn">
                 <input type="button" class="btn btn-success col-lg-12" value="Add to Challenge" ng-click="AddLPtoChList = true; AddLPtoCh = false;" ng-show="AddLPtoCh">
-                <!--KAHLA123-->
                 <div ng-show="AddLPtoChList">
                     <select name="AddLPtoCh" id="AddLPtoCh" ng-model="SelectedCh.Title" class="form-control">
                         <option value="" selected>Select a Challenge</option>
@@ -274,8 +271,6 @@
                     <input type="button" class="btn btn-primary col-lg-3 col-lg-offset-3 btn-sm" value="Add" ng-click="addLPtoCh()">
                     <input type="button" class="btn btn-warning col-lg-3 btn-sm" value="Cancel" ng-click="CanceladdLPtoCh()">
                 </div>
-                <!--Kahla123-->
-
             </div>
         </section>
 
