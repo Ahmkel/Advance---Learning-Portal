@@ -1,0 +1,20 @@
+<section class="container" ng-controller="RegisterUserController">
+    <div class="form-group col-lg-6 col-lg-offset-3">
+        <form name="UserRegisterForm">
+            </br>
+            <label>Password: </label>
+            <input type="password" class="form-control" ng-model="userObj.password">
+            <label>E-mail: </label>
+            <input type="text" class="form-control" ng-model="userObj.email">
+            <label>Name: </label>
+            <input type="text" class="form-control" ng-model="userObj.name">
+            <label>Gender: </label>
+            </br>
+            <label>Image Url: </label>
+            <input type="text" class="form-control" ng-model="userObj.image">
+            </br>
+            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="EditUserData()">"Change Information"</button>
+            <h3 class="text-danger">{{message}}</h3>
+        </form>
+    </div>
+</section>

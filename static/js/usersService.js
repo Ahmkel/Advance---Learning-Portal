@@ -46,6 +46,35 @@
             })
         };
 
+        var sendMessage = function(sender,receiver,msgtext){
+            var msgObj = {
+                sender:sender,
+                receiver:receiver,
+                msgtext:msgtext
+            };
+            return $http.post("/sendMessage",msgObj).then(function(res){
+                return res.data;
+            });
+        };
+
+        var getUnreadMessages = function(username){
+            return $http.get("/getUnreadMessages/" + username).then(function(res){
+                return res.data;
+            });
+        };
+
+        var getReadMessages = function(username){
+            return $http.get("/getReadMessages/" + username).then(function(res){
+                return res.data;
+            });
+        };
+
+        var getUnreadMessagesCount = function(username){
+            return $http.get("/getUnreadMessagesCount/" + username).then(function(res){
+                return res.data;
+            });
+        };
+
         /////////////////Mahmoud
         var Login = function(userObj){
             return $http.post("/Login",userObj).then(function(res){
@@ -69,7 +98,31 @@
             return $http.get("/UnFollow/"+username).then(function(res){
                 return res.data;
             });
-        }
+        };
+
+        var PromoteUser = function(username){
+            return $http.get("/PromoteUser/"+username).then(function(res){
+                return res.data;
+            });
+        };
+
+        var DemoteUser = function(username){
+            return $http.get("/DemoteUser/"+username).then(function(res){
+                return res.data;
+            });
+        };
+
+        var BanUser = function(username){
+            return $http.get("/StopUser/"+username).then(function(res){
+                return res.data;
+            });
+        };
+
+        var EditUserData = function(userObj){
+            return $http.post("/EditUserData",userObj).then(function(res){
+                return res.data;
+            });
+        };
 
         return {
             getUsers:getUsers,
@@ -82,8 +135,16 @@
             Login:Login,
             Logout:Logout,
             authenticate:authenticate,
+            sendMessage:sendMessage,
+            getUnreadMessages:getUnreadMessages,
+            getReadMessages:getReadMessages,
+            getUnreadMessagesCount:getUnreadMessagesCount,
             Follow:Follow,
-            UnFollow:UnFollow
+            UnFollow:UnFollow,
+            PromoteUser:PromoteUser,
+            DemoteUser:DemoteUser,
+            BanUser:BanUser,
+            EditUserData:EditUserData
         };
     };
     var app = angular.module("Advance");

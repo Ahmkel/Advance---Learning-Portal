@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Advance</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.2.5/angular-route.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-animate.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/script.js"></script>
     <script src="js/usersService.js"></script>
@@ -16,9 +16,8 @@
     <link rel="stylesheet" href="css/bootstrap-yeti.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/nga.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+    <link href='css/f1.css' rel='stylesheet' type='text/css'>
+    <link href='css/f2.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body id="page-top" >
@@ -29,10 +28,13 @@
             <a class="navbar-brand page-scroll" href="/#/">Advance</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/#/User/{{UserState}}" ng-show="UserState">{{UserState}}</a></li>
+            <li><a href="/#/User/{{UserState}}" ng-show="UserState">{{UserState}}<span class="badge">{{UnreadMessagesCount}}</span></a></li>
+            <li><a href="/#/Search">Search</a></li>
+            <li><a href="/#/AllChallenges">View Challenges</a></li>
             <li><a href="/#/AllUsers">All Users</a></li>
             <li><a href="/#/AddLP" ng-show="UserState">Add Learning Path</a></li>
-            <li><a href="/#/AddChallenge" ng-show="UserTypeauth()">Add a challenge</a></li>
+            <li><a href="/#/AddChallenge" ng-show="UserTypeauth()">Add Challenge</a></li>
+            <li><a href="/#/AllReports" ng-show="UserTypeauth()">View Reports</a></li>
             <li><a ng-hide="UserState" href="/#/Login">Login</a></li>
             <li><a href="/#/Register" ng-hide="UserState">Register</a></li>
             <li><a ng-show="UserState" href="/#/Logout">Logout</a></li>

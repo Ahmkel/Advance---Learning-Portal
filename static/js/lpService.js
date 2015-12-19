@@ -2,7 +2,6 @@
  * Created by Kahla on 12/11/2015.
  */
 
-////////////Mahmoud
 (function(){
     var $lpService = function($http){
 
@@ -47,12 +46,6 @@
                 return res.data;
             })
         };
-
-/*        var editResource = function(Step){
-            return $http.post("/GetStep",Step).then(function(res){
-                return res.data;
-            })
-        }*/
 
 
         var SwapSteps = function(SwapObj){
@@ -167,6 +160,57 @@
             });
         };
 
+        var SearchLPbyName = function (LPObj) {
+            return $http.post("/SearchLPbyName",LPObj).then(function(res) {
+                return res.data;
+            });
+        };
+        var SearchLPbyCat = function () {
+            return $http.get("/SearchLPbyCat").then(function(res) {
+                return res.data;
+            })
+        };
+
+        var reportLP = function(Report,id) {
+            return $http.post("/ReportLP/"+id,{Text:Report}).then(function(res){
+                return res.data;
+            });
+        };
+
+        var getReports =  function(id) {
+            return $http.get("/GetReports/"+id).then(function (res) {
+                return res.data;
+            });
+        };
+
+        var GetAllReports = function(){
+            return $http.get('/GetAllReports').then(function (res){
+                return res.data;
+            });
+        };
+
+        var getCh = function(){
+            return $http.get("/getCh").then(function(res){
+                return res.data;
+            });
+        };
+
+        var addLPtoCh = function (id,ChObj){
+            return $http.post("/addLPtoCh/"+id,ChObj).then(function(res){
+                return res.data;
+            });
+        };
+
+        var removeCh = function (id,title){
+            var obj = {
+                Title:title,
+            };
+            return $http.post("removeCh/" + id,obj).then(function(res){
+                return res.data;
+            });
+        };
+
+
         return {
             addLP: addLP,
             getLP: getLP,
@@ -178,7 +222,7 @@
             SwapSteps:SwapSteps,
             DeleteStep:DeleteStep,
             StpsNo:StpsNo,
-            //editResource: editResource
+
 
             getSteps: getSteps,
             getLPUsers: getLPUsers,
@@ -186,14 +230,23 @@
             getVotes: getVotes,
             getChallenges: getChallenges,
             addComment:addComment,
+            addLPtoCh: addLPtoCh,
+            getCh: getCh,
+            removeCh: removeCh,
 
-            //////Hamada
+            SearchLPbyName: SearchLPbyName,
+            reportLP:reportLP,
+            getReports:getReports,
+            GetAllReports:GetAllReports,
+
+
             register:register,
             unregister:unregister,
             remove:remove,
             checkUserVoteLP:checkUserVoteLP,
             voteLP:voteLP,
             getResourceData:getResourceData
+
         };
     };
 

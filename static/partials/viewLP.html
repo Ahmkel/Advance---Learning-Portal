@@ -4,6 +4,28 @@
         <h3>{{LPObj.Description}}</h3>
     </section>
     <section  class="col-lg-9">
+
+
+        <div class="form-group" ng-show="ReportShow">
+            <form>
+                <textarea rows="4" cols="50" class="form-control" ng-model="ReportText"></textarea>
+                </br>
+                <button type="SUBMIT" class="btn btn-primary col-lg-offset-5" ng-click="ReportLP()">Report</button>
+                <button type="SUBMIT" class="btn btn-warning" ng-click="Cancelling()">Cancel</button>
+            </form>
+        </div>
+
+        <ul class="list-group" ng-show = "ReportModOnly && LPReports.length!=0">
+            <li class="list-group-item active panel-title">Reports</li>
+            <div ng-repeat="Report in LPReports">
+                <li class="list-group-item">
+                    <h4><strong><a href="/#/User/{{Report.ReporterUN}}">{{Report.ReporterUN}}</a></strong></h4>
+                    <h5>{{Report.Problem}}</h5>
+                </li>
+            </div>
+        </ul>
+
+
         <ul class="list-group">
             <li class="list-group-item active panel-title">Steps</li>
             <li class="list-group-item" ng-repeat="step in AllSteps">
@@ -34,7 +56,7 @@
                     </div>
 
                     <div ng-if="step.Type=='3'">
-                        <h5>Blogger: {{step.Blogger}}</h5>
+                        <h5>Blogger: {{step.Blogger}}</br></br></h5>
                     </div>
                 </section>
                 </section>
@@ -217,6 +239,9 @@
                     <h5>{{Challenge.Description}}</h5>
                     <h5>Prize:{{Challenge.Prize}}</h5>
                     <h5>Difficulty: {{Challenge.Difficulty}}</h5>
+                    <!--Kahla123-->
+                    <button type="submit"class="btn btn-primary col-lg-offset-0" ng-show="AddLPtoCh" ng-click="removeChLP(Challenge.Title)">Remove</button>
+                    <!--Kahla123-->
                 </li>
             </div>
         </ul>
@@ -233,9 +258,24 @@
                 <input type="button" class="btn btn-warning col-lg-12" value="Unregister" ng-click="unRegister()" ng-show="unRegisterShow">
                 <input type="button" class="btn btn-success col-lg-12" value="Up vote" ng-click="UpVote()" ng-show="UpVoteShow">
                 <input type="button" class="btn btn-warning col-lg-12" value="Down vote" ng-click="DownVote()" ng-show="DownVoteShow">
+                <input type="button" class="btn btn-warning col-lg-12" value="Remove Vote" ng-click="DownVote()" ng-show="RemoveUpVoteShow">
+                <input type="button" class="btn btn-warning col-lg-12" value="Remove Vote" ng-click="UpVote()" ng-show="RemoveDownVoteShow">
                 <input type="button" class="btn btn-success col-lg-12" value="Modify" ng-click="Modify()" ng-show="ModifyShow">
                 <input type="button" class="btn btn-danger col-lg-12" value="Stop Modifying" ng-click="StopModify()" ng-show="StopModifyShow">
                 <input type="button" class="btn btn-danger col-lg-12" value="Remove" ng-click="Remove()" ng-show="RemoveShow">
+                <input type="button" class="btn btn-danger col-lg-12" value="Report" ng-click="ShowReportLP()" ng-show="ReportShowbtn">
+                <input type="button" class="btn btn-success col-lg-12" value="Add to Challenge" ng-click="AddLPtoChList = true; AddLPtoCh = false;" ng-show="AddLPtoCh">
+                <!--KAHLA123-->
+                <div ng-show="AddLPtoChList">
+                    <select name="AddLPtoCh" id="AddLPtoCh" ng-model="SelectedCh.Title" class="form-control">
+                        <option value="" selected>Select a Challenge</option>
+                        <option ng-repeat="Challenge in AllCh" value="{{Challenge.Title}}">{{Challenge.Title}}</option>
+                    </select>
+                    <input type="button" class="btn btn-primary col-lg-3 col-lg-offset-3 btn-sm" value="Add" ng-click="addLPtoCh()">
+                    <input type="button" class="btn btn-warning col-lg-3 btn-sm" value="Cancel" ng-click="CanceladdLPtoCh()">
+                </div>
+                <!--Kahla123-->
+
             </div>
         </section>
 
@@ -246,7 +286,7 @@
                 <li class="list-group-item">
                     <h5>Duration: {{LPObj.Duration}} hours</h5>
                     <h5>Category: {{LPObj.Category}}</h5>
-                    <h5>Creator: {{LPObj.CreatorUser}}</h5>
+                    <h5>Creator: <a href="/#/User/{{LPObj.CreatorUser}}">{{LPObj.CreatorUser}}</a></h5>
                     <h5>Creation Date: {{LPObj.CreationDate}}</h5>
                     <h5>Votes: {{LPVotes}}</h5>
                 </li>

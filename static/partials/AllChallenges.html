@@ -1,0 +1,14 @@
+<section id="users" class="container" ng-controller="AllChallengesController">
+    <div class="col-md-10 col-lg-offset-1">
+        </br>
+        <ul class="list-group">
+            <li class="list-group-item active panel-title">Challenges</li>
+            <li class="list-group-item" ng-repeat="Challenge in AllChallenges">
+                <h4><strong><a href="/#/ViewChallenge/{{Challenge.Title}}">{{Challenge.Title}}</a></strong></h4>
+                <h5><strong>{{Challenge.Description}}</strong></h5>
+                <h5>Prize: {{Challenge.Prize}}</h5>
+                <h5>Difficulty: {{Challenge.Difficulty}}</h5>
+            </li>
+        </ul>
+    </div>
+</section>

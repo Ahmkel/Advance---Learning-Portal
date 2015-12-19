@@ -293,21 +293,27 @@ var checkUserVoteLP = function(req,res){
     });
 };
 
-var voteLP = function(req,res){
-    sqlConnector.getConnection(function(err,connection){
+var voteLP = function(req,res) {
+    sqlConnector.getConnection(function (err, connection) {
         var resJSON = {};
-        connection.query("DELETE FROM voteslp where username = ? and lpid = ?",[req.body.username,req.body.lpid],function(err,rows){
-            var d = new Date();
-            var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-            connection.query("INSERT INTO voteslp VALUE(?,?,?,?)",[req.body.username,req.body.lpid,req.body.type,date]
-            ,function(err,rows){
-                    res.end(JSON.stringify({err:err}))
+        connection.query("SELECT * FROM voteslp where username = ? and lpid = ?", [req.body.username, req.body.lpid], function (err, rows) {
+            if (rows.length == 0) {//Never voted before, Inert new vote
+                var d = new Date();
+                var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                connection.query("INSERT INTO voteslp VALUE(?,?,?,?)", [req.body.username, req.body.lpid, req.body.type, date]
+                    , function (err, rows) {
+                        res.end(JSON.stringify({err: err}))
+                        connection.release();
+                    });
+            } else {//Voted before, remove vote
+                connection.query("DELETE FROM voteslp where username = ? and lpid = ?", [req.body.username, req.body.lpid], function (err, rows) {
+                    res.end(JSON.stringify({err: err}))
                     connection.release();
                 });
+            }
         });
     });
 };
-
 
 var getLpChallenges = function(req,res){
     sqlConnector.getConnection(function(err,connection){
@@ -417,29 +423,65 @@ var addComment = function (req,res) {
     });
 };
 
-
-
-/////////Assem
-var SearchLPbyName = function(req,res){
+var getCh = function(req,res){
     sqlConnector.getConnection(function(err,connection){
-        connection.query("SELECT L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate, Sum(V.Type) FROM LearningPath L, VotesLP V WHERE Name like '%" + req.params.name + "&' GROUP BY L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate",function(err,rows){
-            res.end(JSON.stringify(LPS = rows)+'\n');
+        var resJSON = {};
+        connection.query("SELECT Title from Challenge",function(err,rows){
+            resJSON.Error = null;
+            resJSON.AllCh = rows;
+            res.end(JSON.stringify(resJSON));
+            connection.release();
+        });
+    })
+};
+
+var addLPtoCh = function (req,res) {
+    sqlConnector.getConnection(function (err, connection) {
+        var resJSON = {};
+        if(!req.body.Title)
+        {
+            resJSON.Error="Please Select a Challenge";
+            res.end(JSON.stringify(resJSON));
+            connection.release();
+            return;
+        }
+        connection.query("Insert into challengeassociatedlp values (?,?)", [req.params.id,req.body.Title], function (err) {
+            if (err) {
+                resJSON.Error = "Challenge already associated with this Learning Path";
+                res.end(JSON.stringify(resJSON));
+                return;
+            }
+            else {
+                resJSON.Error = null;
+                res.end(JSON.stringify(resJSON));
+                connection.release();
+            }
         });
     });
 };
 
-var SearchLPbyCat = function(req,res){
-    sqlConnector.getConnection(function(err,connection){
-        connection.query("SELECT L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate, Sum(V.Type) FROM LearningPath L, VotesLP V WHERE Category = '" + req.params.name + "' GROUP BY L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate",function(err,rows){
-            res.end(JSON.stringify(LPS = rows)+'\n');
-        });
-    });
+var removeChallenge = function (req,res) {
+    sqlConnector.getConnection(function(err,connection) {
+        var resJSON = {};
+        connection.query("delete from challengeassociatedlp where ChallengeTitle = ? and LPID = ?",[req.body.Title,req.params.id],function (err){
+            resJSON.Error = err;
+            res.end(JSON.stringify(resJSON));
+            connection.release();
+        })
+    })
 };
+
+/////Hamada
 var getResourceData = function(req,res){
     sqlConnector.getConnection(function(err,connection){
         var step = {};
         if(req.body.type=='4'){
             connection.query("SELECT * FROM course where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows){
+                if(err || !rows){
+                    res.end(JSON.stringify(err));
+                    connection.release();
+                    return;
+                }
                 step.Provider = rows[0].ProviderName;
                 step.Duration = rows[0].Duration;
                 step.Price = rows[0].Price;
@@ -448,6 +490,11 @@ var getResourceData = function(req,res){
             });
         } else if(req.body.type=='1'){
             connection.query("SELECT * FROM book where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows) {
+                if(err || !rows){
+                    res.end(JSON.stringify({err:err,rows:rows}));
+                    connection.release();
+                    return;
+                }
                 step.Author = rows[0].Author;
                 step.Pagesno = rows[0].Pagesno;
                 step.Price = rows[0].Price;
@@ -456,6 +503,11 @@ var getResourceData = function(req,res){
             });
         } else if(req.body.type=='2'){
             connection.query("SELECT * FROM video where lpid = ? and stepno = ?",[req.body.lpid,req.body.stepno],function(err,rows) {
+                if(err || !rows){
+                    res.end(JSON.stringify(err));
+                    connection.release();
+                    return;
+                }
                 step.Uploader = rows[0].Uploader;
                 step.Duration = rows[0].Duration;
                 res.end(JSON.stringify(step));
@@ -463,11 +515,96 @@ var getResourceData = function(req,res){
             });
         }else {
             connection.query("SELECT * FROM blog where lpid = ? and stepno = ?", [req.body.lpid, req.body.stepno], function (err, rows) {
+                if(err  || !rows){
+                    res.end(JSON.stringify(err));
+                    connection.release();
+                    return;
+                }
                 step.Blogger = rows[0].Blogger;
                 res.end(JSON.stringify(step));
                 connection.release();
             });
         }
+    });
+};
+
+
+///////////Assem
+var SearchLPbyName = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        console.log(err);
+        var resJSON = {};
+        if(req.body.Title==""){
+            resJSON.LPs = [];
+            res.end(JSON.stringify(resJSON));
+            return;
+        }
+        connection.query("Select L.ID, L.Title, L.Description,IFNULL(SUM(V.Type),0) as Votes from LearningPath L LEFT JOIN VotesLP V ON V.LPID = L.ID where L.Title LIKE '%"+req.body.Title+"%' GROUP BY L.ID,L.Title,L.Description;",function(err,rows){
+            resJSON.LPs = rows;
+            res.end(JSON.stringify(resJSON));
+            connection.release();
+        });
+    });
+};
+
+var SearchLPbyCat = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate, Sum(V.Type) FROM LearningPath L, VotesLP V WHERE Category = '" + req.body.Category + "' GROUP BY L.Title, L.Category, L.Duration, L.CreatorUser, L.CreationDate",function(err,rows){
+            res.end(JSON.stringify(LPS = rows)+'\n');
+        });
+    });
+};
+
+var ReportLP = function (req,res) {
+    sqlConnector.getConnection(function (err,connection) {
+        var resJSON={};
+        connection.query("INSERT into Report(Problem) values(?);",[req.body.Text],function(err){
+            resJSON.Error1 = err;
+        });
+        connection.query("SELECT MAX(ID) as ReportID from Report",function(err,rows){
+            resJSON.ID=rows[0].ReportID;
+            resJSON.Error2 = err;
+
+            connection.query("INSERT INTO ReportsOn values(?,?,?)", [req.AdvanceCookie.username,req.params.id,resJSON.ID], function (err) {
+                resJSON.Error3=err;
+                res.end(JSON.stringify(resJSON));
+                connection.release();
+            });
+        });
+    });
+};
+
+var getReports = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {};
+        connection.query("SELECT RO.ReporterUN,R.Problem from Report R,ReportsOn RO where RO.ReportID = R.ID and RO.ReportedLPID =? ORDER BY R.ID DESC",[req.params.id],function(err,rows){
+            if (err) {
+                res.end(JSON.stringify(err));
+            }
+            else{
+                resJSON.Reports = rows;
+                resJSON.Error = null;
+                res.end(JSON.stringify(resJSON));
+                connection.release();
+            }
+        });
+    });
+};
+
+var GetAllReports = function (req,res) {
+    sqlConnector.getConnection(function(err,connection){
+        var resJSON = {};
+        connection.query("SELECT RO.ReporterUN, R.Problem, L.Title, L.ID from Report R,ReportsOn RO, LearningPath L, User U WHERE RO.ReporterUN = U.Username AND RO.ReportedLPID = L.ID and R.ID = RO.ReportID ORDER BY R.ID DESC",function(err,rows){
+            if (err) {
+                res.end(JSON.stringify(err));
+            }
+            else{
+                resJSON.Reports = rows;
+                resJSON.Error = null;
+                res.end(JSON.stringify(resJSON));
+                connection.release();
+            }
+        });
     });
 };
 
@@ -491,6 +628,9 @@ module.exports = {
     getLpVotes: getLpVotes,
     getLpChallenges: getLpChallenges,
     addComment: addComment,
+    addLPtoCh: addLPtoCh,
+    getCh: getCh,
+    removeChallenge: removeChallenge,
 
     //////Hamada
     registerLP:registerLP,
@@ -504,5 +644,8 @@ module.exports = {
 
     ///////Assem
     SearchLPbyName: SearchLPbyName,
-    SearchLPbyCat: SearchLPbyCat
+    SearchLPbyCat: SearchLPbyCat,
+    ReportLP:ReportLP,
+    getReports:getReports,
+    GetAllReports:GetAllReports
 };

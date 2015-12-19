@@ -34,11 +34,18 @@
             });
         };
 
+        var getAllChallenges = function(){
+            return $http.get("/getAllChallenges").then(function(res){
+                return res.data;
+            });
+        };
+
         return {
             AddChallenge:AddChallenge,
             getChallenge: getChallenge,
             getChLP: getChLP,
-            getChUsers: getChUsers
+            getChUsers: getChUsers,
+            getAllChallenges:getAllChallenges
         };
     };
 

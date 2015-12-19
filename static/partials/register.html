@@ -1,37 +1,68 @@
 <section class="container" ng-controller="RegisterUserController">
-    <div class="form-group col-lg-6 col-lg-offset-3">
-        <form name="UserRegisterForm">
-            </br>
-            <label>Username: </label>
-            <input type="text" class="form-control" ng-model="userObj.username">
-            <label>Password: </label>
-            <input type="password" class="form-control" ng-model="userObj.password">
-            <label>E-mail: </label>
-            <input type="text" class="form-control" ng-model="userObj.email">
-            <label>Name: </label>
-            <input type="text" class="form-control" ng-model="userObj.name">
-            <label>Gender: </label>
-            </br>
-            <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="M" ng-checked="true">Male</label>
-            <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="F">Female</label>
-            </br>
-            <label>Birthdate:</label>
-            </br>
-            <select ng-model="birthYear">
-                <option ng-repeat="n in Years" value="{{n}}">{{n}}</option>
-            </select>
-            <select ng-model="birthMonth">
-                <option ng-repeat="n in Months" value="{{n}}">{{n}}</option>
-            </select>
-            <select ng-model="birthDay">
-                <option ng-repeat="n in Days" value="{{n}}">{{n}}</option>
-            </select>
-            </br>
-            <label>Image Url: </label>
-            <input type="text" class="form-control" ng-model="userObj.image">
-            </br>
-            <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="submitUserData()">Register!</button>
-            <h3 class="text-danger">{{message}}</h3>
+    <div class="col-lg-6 col-lg-offset-3">
+        <form name="UserRegisterForm" class="form-horizontal">
+            <fieldset>
+                </br>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Username: </label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" ng-model="userObj.username">
+                    </div></div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Password: </label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" ng-model="userObj.password">
+                    </div></div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">E-mail: </label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" ng-model="userObj.email">
+                    </div></div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Name: </label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" ng-model="userObj.name">
+                    </div></div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Gender: </label>
+
+                    <div class="col-lg-10">
+                        <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="M" ng-checked="true">Male</label>
+                        <label class="radio-inline" ><input type="radio" ng-model="userObj.gender" value="F">Female</label>
+                        </br>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Birthdate:</label>
+                    <div class="col-lg-10">
+                        <select ng-model="birthYear">
+                            <option ng-repeat="n in Years" value="{{n}}">{{n}}</option>
+                        </select>
+                        <select ng-model="birthMonth">
+                            <option ng-repeat="n in Months" value="{{n}}">{{n}}</option>
+                        </select>
+                        <select ng-model="birthDay">
+                            <option ng-repeat="n in Days" value="{{n}}">{{n}}</option>
+                        </select>
+                        </br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Image Url: </label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" ng-model="userObj.image"></br>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary col-lg-offset-5" ng-click="submitUserData()">Register!</button>
+                <strong class="alert alert-danger" ng-hide="message=='' || !message">{{message}}</strong>
+            </fieldset>
         </form>
     </div>
 </section>
+

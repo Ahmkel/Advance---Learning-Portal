@@ -42,7 +42,10 @@ module.exports.route = function(app){
     app.post("/checkUserVoteLP",req_handlers.checkUserVoteLP);
     app.post("/voteLP",req_handlers.voteLP);
     app.post("/getResourceData",req_handlers.getResourceData);
-
+    app.post("/sendMessage",req_handlers.sendMessage);
+    app.get("/getUnreadMessages/:username",req_handlers.getUnreadMessages);
+    app.get("/getReadMessages/:username",req_handlers.getReadMessages);
+    app.get("/getUnreadMessagesCount/:username",req_handlers.getUnreadMessagesCount);
 
     ///////////Mahmoud
     app.get("/Logout",req_handlers.Logout);
@@ -68,12 +71,23 @@ module.exports.route = function(app){
     app.post("/GetChLP",req_handlers.getChLP);
     app.post("/GetChUsers",req_handlers.getChUsers);
     app.post("/addComment/:id",req_handlers.addComment);
+    app.post("/addLPtoCh/:id",req_handlers.addLPtoCh);
+    app.get("/getCh", req_handlers.getCh);
+    app.post("/removeCh/:id",req_handlers.removeChallenge);
 
     //////////Assem
     app.get("/Follow/:username",req_handlers.Follow);
-    app.get("/UnFollow/:username",req_handlers.UnFollow);
-    app.get("/SearchLPbyName",req_handlers.SearchLPbyName);
+    app.get("/UnFollow/:username1",req_handlers.UnFollow);
+    app.post("/SearchLPbyName",req_handlers.SearchLPbyName);
     app.get("/SearchLPbyCat",req_handlers.SearchLPbyCat);
+    app.get("/PromoteUser/:username",req_handlers.PromoteUser);
+    app.get("/DemoteUser/:username",req_handlers.DemoteUser);
+    app.post('/ReportLP/:id',req_handlers.ReportLP);
+    app.get("/GetReports/:id",req_handlers.getReports);
+    app.get("/StopUser/:username",req_handlers.StopUser);
+    app.post("/EditUserData",req_handlers.EditUserData);
+    app.get("/getAllChallenges",req_handlers.getAllChallenges);
+    app.get("/GetAllReports",req_handlers.GetAllReports);
 
     //////Hamada
     app.get("*",function(req,res){

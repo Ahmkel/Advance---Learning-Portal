@@ -75,10 +75,19 @@ var getChUsers = function (req,res){
     });
 };
 
+var getAllChallenges= function (req,res){
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("SELECT * FROM challenge",function(err,rows) {
+            res.end(JSON.stringify({}.Challenges = rows) + "\n");
+            connection.release();
+        });
+    });
+};
 
 module.exports = {
     AddChallenge:AddChallenge,
     getChallenge: getChallenge,
     getChLP: getChLP,
     getChUsers: getChUsers,
+    getAllChallenges:getAllChallenges
 }

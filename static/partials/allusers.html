@@ -1,10 +1,17 @@
 <section id="users" class="container" ng-controller="AllUsersController">
-    <p class="row"><h2>Users:</h2></p>
-    <div class="col-md-6">
+    <div class="col-md-10 col-lg-offset-1">
+        </br>
         <ul class="list-group">
-            <div ng-repeat="user in AllUsers">
-                <li class="list-group-item"><strong><a href="/#/User/{{user.Username}}">{{user.Username}}</a></strong></li>
-            </div>
+            <li class="list-group-item active panel-title">Users</li>
+            <li class="list-group-item" ng-repeat="User in AllUsers" style="height: 120px;">
+                <div class="col-lg-2">
+                    <img src="{{User.Image}}" class="img-rounded;" style="width:100px;height:100px"/>
+                </div>
+                <h4><strong><a href="/#/User/{{User.Username}}">{{User.Username}}</a></strong></h4>
+                <h5>{{User.Fullname}}</h5>
+                <h5>{{User.Email}}</h5>
+            </li>
         </ul>
     </div>
+
 </section>

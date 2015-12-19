@@ -13,7 +13,7 @@ var OnlinedbConfig = {
 };
 
 var LocaldbConfig = {
-    host:"localhost",
+    host:"127.0.0.1",
     user:"root",
     password:"123456",
     database:"Advance Project"
@@ -22,3 +22,5 @@ var LocaldbConfig = {
 //module.exports = mysql.createPool(OnlinedbConfig);
 
 module.exports = mysql.createPool(LocaldbConfig);
+
+//module.exports = mysql.createPool(LocaldbConfig);

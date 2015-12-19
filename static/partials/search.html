@@ -1,0 +1,16 @@
+<section id="users" class="container" ng-controller="SearchController">
+    <section  class="page-header row">
+        <h1>Search for Learning Paths</h1>
+    </section>
+    <section>
+        <ul class="list-group">
+            <li class="list-group-item active"></li>
+            <input type="text" placeholder="Please enter a keyword, e.g: Develop" class="form-control" ng-model="LPObj.Title" ng-change="LPSearch()">
+            <li class="list-group-item" ng-repeat="learningpath in SLP">
+                <h4><strong><a href="/#/ViewLP/{{learningpath.ID}}">{{learningpath.Title}}</a></strong></h4>
+                <h5>{{learningpath.Description}}</h5>
+                <h5>Votes: {{learningpath.Votes}}</h5>
+            </li>
+        </ul>
+    </section>
+</section>

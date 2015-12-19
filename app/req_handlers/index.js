@@ -33,7 +33,10 @@ module.exports = {
     checkUserVoteLP:learningpath.checkUserVoteLP,
     voteLP:learningpath.voteLP,
     getResourceData:learningpath.getResourceData,
-
+    sendMessage:users.sendMessage,
+    getUnreadMessages:users.getUnreadMessages,
+    getReadMessages:users.getReadMessages,
+    getUnreadMessagesCount:users.getUnreadMessagesCount,
 
     //////Mahmoud
     Login: users.Login,
@@ -59,10 +62,21 @@ module.exports = {
     getChLP: challenge.getChLP,
     getChUsers: challenge.getChUsers,
     addComment: learningpath.addComment,
+    addLPtoCh: learningpath.addLPtoCh,
+    getCh: learningpath.getCh,
+    removeChallenge: learningpath.removeChallenge,
 
     //Assem
     Follow: users.Follow,
     UnFollow: users.UnFollow,
     SearchLPbyName:learningpath.SearchLPbyName,
-    SearchLPbyCat:learningpath.SearchLPbyCat
+    SearchLPbyCat:learningpath.SearchLPbyCat,
+    PromoteUser:users.PromoteUser,
+    DemoteUser:users.DemoteUser,
+    ReportLP:learningpath.ReportLP,
+    getReports:learningpath.getReports,
+    StopUser:users.StopUser,
+    EditUserData:users.EditUserData,
+    getAllChallenges:challenge.getAllChallenges,
+    GetAllReports:learningpath.GetAllReports
 };

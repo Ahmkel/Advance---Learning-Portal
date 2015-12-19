@@ -11,7 +11,7 @@ var sqlConnector = require('./sqlConnector.js');
 
 var getUsers = function(req,res){
     sqlConnector.getConnection(function(err,connection){
-        connection.query("SELECT * FROM User",function(err,rows){
+        connection.query("SELECT Username,Email,Fullname,Gender,Birthdate,Image,Type FROM User",function(err,rows){
             res.end(JSON.stringify({}.Users = rows)+"\n");
             connection.release();
         });
@@ -35,6 +35,7 @@ var RegisterUser = function(req,res){
 var getUserData = function(req,res){
     //res.send(JSON.stringify(req.params));
     sqlConnector.getConnection(function(err,connection){
+        //connection.query("SELECT * FROM User WHERE Username = ?",[req.params.username]
         connection.query("SELECT * FROM User WHERE Username = ?",[req.params.username]
         ,function(err,rows){
                 var resJSON={}
@@ -139,7 +140,7 @@ var getUserFollowed = function(req,res){
 ////////Mahmoud
 var Login = function(req,res){
     sqlConnector.getConnection(function(err,connection){
-        connection.query("SELECT * FROM User WHERE Username = ? and Password = ?",[req.body.username, req.body.password],function(err,rows) {
+        connection.query("SELECT Username,Type FROM User WHERE Username = ? and Password = ?",[req.body.username, req.body.password],function(err,rows) {
             var resJSON = {};
             if (rows.length == 0) {
                 resJSON.Error = "User not found"
@@ -208,6 +209,107 @@ var UnFollow = function(req,res){
     });
 };
 
+var PromoteUser = function (req,res){
+    var O={};
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("UPDATE USER SET Type = 1  Where Username = ? ",[req.params.username], function (err,rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var DemoteUser = function (req,res){
+    var O={};
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("UPDATE USER SET Type = 0  Where Username = ? ",[req.params.username],function (err,rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var StopUser = function (req,res){
+    var O={};
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("UPDATE USER SET Type = -1  Where Username = ? ",[req.params.username],function (err,rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var EditUserData = function (req,res){
+    var O={};
+    sqlConnector.getConnection(function(err,connection){
+        connection.query("UPDATE USER SET FullName = ? , Password = ? , Email= ? , Image = ? Where Username = ? ",[req.body.Name,req.body.Password,req.body.Email,req.body.Image,req.AdvanceCookie.username],function(err,rows){
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+//Hamada
+var sendMessage = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        connection.query("INSERT INTO message(Sender,Receiver,MessageText) VALUES(?,?,?) ",[req.body.sender,req.body.receiver,req.body.msgtext],function (err, rows) {
+            O.Error=err;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var getUnreadMessages = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        connection.query("SELECT * FROM message WHERE Receiver = ? AND IsUnread = 1 ORDER BY ID DESC",[req.params.username],function (err, rows) {
+            O.Error=err;
+            O.unreadMessages = rows;
+            O.a="1";
+            res.end(JSON.stringify(O) + "\n");
+            connection.query("UPDATE message SET IsUnread = 0 WHERE Receiver = ? AND IsUnread = 1",[req.params.username],function (err, rows) {
+                connection.release();
+            });
+        });
+    });
+};
+
+var getReadMessages = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        connection.query("SELECT * FROM message WHERE Receiver = ? AND IsUnread = 0 ORDER BY ID DESC",[req.params.username],function (err, rows) {
+            O.Error=err;
+            O.readMessages = rows;
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+var getUnreadMessagesCount = function(req,res){
+    sqlConnector.getConnection(function(err,connection){
+        var O ={};
+        //res.end(JSON.stringify(err) + "\n");
+        //return;
+        connection.query("SELECT IFNULL(SUM(IsUnread),0) as count FROM message WHERE Receiver = ? AND IsUnread = 1",[req.params.username],function (err, rows) {
+            O.Error=err;
+            if(!err) {
+                O.count = rows[0].count;
+            }
+            res.end(JSON.stringify(O) + "\n");
+            connection.release();
+        });
+    });
+};
+
+
+
 module.exports = {
     //////////Hamada
     getUsers: getUsers,
@@ -218,10 +320,20 @@ module.exports = {
     getUserFollowed:getUserFollowed,
     getRegisteredLearningPaths:getRegisteredLearningPaths,
     authenticate:authenticate,
+    sendMessage:sendMessage,
+    getUnreadMessages:getUnreadMessages,
+    getReadMessages:getReadMessages,
+    getUnreadMessagesCount:getUnreadMessagesCount,
+
     ////////Mahmoud
     Login:Login,
     Logout:Logout,
+
     //////Assem
     Follow:Follow,
-    UnFollow:UnFollow
+    UnFollow:UnFollow,
+    PromoteUser: PromoteUser,
+    DemoteUser: DemoteUser,
+    StopUser: StopUser,
+    EditUserData: EditUserData
 };
