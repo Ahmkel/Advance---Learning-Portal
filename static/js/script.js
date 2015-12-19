@@ -502,7 +502,15 @@
 
     var LoginController = function ($scope,$rootScope,$usersService,$window) {
         $rootScope.header = "";
+        $scope.userObj = {};
         $scope.Login = function () {
+            if($scope.userObj.username == '' || !$scope.userObj.username){
+                $scope.message1 = 'Please enter a username';
+                return;
+            }else if($scope.userObj.password == '' || !$scope.userObj.password){
+                $scope.message1 = 'Please enter a password';
+                return;
+            }
             $usersService.Login($scope.userObj).then(function (res) {
                 if (!res.Error) {
                     if(res.User.Type == '-1'){
